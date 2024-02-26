@@ -30,10 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-    'jet.dashboard',
-    'jet',
-    
+INSTALLED_APPS = [    
     'user.apps.UserConfig',
     'order.apps.OrderConfig',
     'home.apps.HomeConfig',
