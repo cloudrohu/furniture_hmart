@@ -13,7 +13,7 @@ class SliderAdmin(admin.ModelAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ['title','image_tag', 'update_at','create_at']
+    list_display = ['title', 'update_at','create_at']
 
 
 class ContactMessageAdmin(admin.ModelAdmin):
