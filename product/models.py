@@ -132,7 +132,7 @@ class Product(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        return reverse('product_detail', kwargs={'slug': self.slug})
 
     def avaregereview(self):
         reviews = Comment.objects.filter(product=self, status='True').aggregate(avarage=Avg('rate'))
