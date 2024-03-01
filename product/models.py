@@ -42,7 +42,7 @@ class Category(MPTTModel):
         ('False', 'False'),
     )
     parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=250)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     image=models.ImageField(blank=True,upload_to='images/')
