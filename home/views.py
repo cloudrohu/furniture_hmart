@@ -31,7 +31,9 @@ def index(request):
     products_slider = Product.objects.all().order_by('id')[:4]  #first 4 products
     products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
     featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
-    delivered = Product.objects.filter(delivered = 'True').order_by('-id')[:12]  # last 4 products
+    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:12]  # last 4 products
+    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:12]  # last 4 products
+    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:12]  # last 4 products
     products_picked = Product.objects.all().order_by('?')[:8]   #Random selected 4 products
     page="home"
     context={
@@ -45,7 +47,9 @@ def index(request):
         'products_latest':products_latest,
         'featured_project':featured_project,
         'featured_category':featured_category,
-        'delivered':delivered,
+        'New_Arrivals':New_Arrivals,
+        'Top_Rated':Top_Rated,
+        'featured':featured,
     }
 
     return render(request,'index.html',context)
@@ -124,6 +128,8 @@ def category_products(request,id,slug):
 
 
 def search(request):
+    setting = Setting.objects.all().order_by('-id')[:1]
+
     if request.method == 'POST': # check post
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -137,7 +143,10 @@ def search(request):
             category = Category.objects.all()
             context = {'products': products,
                         'query':query,
-                       'category': category }
+                       'category': category,
+                       'setting': setting,
+
+                         }
             return render(request, 'search_products.html', context)
 
     return HttpResponseRedirect('/')
@@ -161,6 +170,9 @@ def search_auto(request):
 
 
 def product_detail(request,id,slug):
+    setting = Setting.objects.all().order_by('-id')[:1]
+
+    
     query = request.GET.get('q')
     # >>>>>>>>>>>>>>>> M U L T I   L A N G U G A E >>>>>> START
     #defaultlang = settings.LANGUAGE_CODE[0:2] #en-EN
@@ -176,7 +188,7 @@ def product_detail(request,id,slug):
     images = Images.objects.filter(product_id=id)
     comments = Comment.objects.filter(product_id=id,status='True')
     context = {'product': product,'category': category,
-               'images': images, 'comments': comments,
+               'images': images, 'comments': comments,'setting': setting,
                }
     if product.variant !="None": # Product have variants
         if request.method == 'POST': #if we select color

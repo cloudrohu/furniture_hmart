@@ -7,17 +7,7 @@
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
 
 {% block body %}
-
-    <!-- BREADCRUMB -->
-    <div id="breadcrumb">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="/">{% trans "Home" %}</a></li>
-                <li class="active">{% trans "Contact Page" %}</li>
-            </ul>
-        </div>
-    </div>
-    <!-- /BREADCRUMB -->
+    <br>
 
     <!-- section -->
     <div class="section">
@@ -30,8 +20,7 @@
 
                     <div class="billing-details">
 
-                        <div class="section-title">
-                            <h3 class="title">{% trans "Contact Form"%}</h3>
+                        <div class="section-title">                        
 
                             {% if messages %}
                                 {% for message in messages %}
@@ -50,14 +39,14 @@
                     </div>
 
                 </div>
-
+                <br>
                 <div class="col-md-8">
                     <div class="shiping-methods">
-                        <div class="section-title">
-                            <h3 class="title">{% trans "Contact Information"%}</h3>
-                        </div>
+                        <br>  <br>  <br>
                         <div >
-                            {{ setting.contact|safe }}
+                            {% for rs in setting %}
+                            {{ rs.contact|safe }}
+                            {% endfor %}
                         </div>
 
                     </div>
@@ -68,6 +57,30 @@
         <!-- /container -->
     </div>
     <!-- /section -->
+    <br><br>
+    <!-- Contact Area Start -->
+    <div class="contact-area">
+        <div class="container">
+            <div class="contact-wrapper">
+                
+            </div>
+        </div>
+    </div>
+    <!-- Contact Area End -->
+    <!-- map Area Start -->
+    <div class="contact-map">
+        <div id="mapid">
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    {% for rs in setting %}
+                        {{ rs.google_map|safe }}
+                    {% endfor %}
+                    <a href="https://sites.google.com/view/maps-api-v2/mapv2"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- map Area End -->
 
 
 {% endblock %}

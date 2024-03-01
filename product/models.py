@@ -82,9 +82,10 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
-    PRODUCT_SERVICE = (
-        ('Product', 'Product'),
-        ('Service', 'Service'),
+    PRODUCT_TYPE = (
+        ('New Arrivals', 'New Arrivals'),
+        ('Top Rated', 'Top Rated'),
+        ('Featured', 'Featured'),
     )
 
     STATUS = (
@@ -98,22 +99,20 @@ class Product(models.Model):
         ('Color', 'Color'),
         ('Size-Color', 'Size-Color'),
     )
-    type=models.CharField(max_length=25,choices=PRODUCT_SERVICE)
+    type=models.CharField(max_length=25,choices=PRODUCT_TYPE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE) #many to one relation with Category
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE) #many to one relation with Brand
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=250)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     image=models.ImageField(upload_to='images/',null=False)
-    mrp=models.IntegerField(default=0)
-    offer_price=models.IntegerField(default=3)
+    price=models.IntegerField(default=0)
+    discount=models.IntegerField(default=0)
     variant=models.CharField(max_length=10,choices=VARIANTS, default='None')
     detail=RichTextUploadingField()
     slug = models.SlugField(null=False, unique=True)
     status=models.CharField(max_length=10,choices=STATUS)
     featured_project = models.BooleanField(default=False)
-    delivered = models.BooleanField(default=False)
-    delivered = models.BooleanField(default=False)
     create_at=models.DateTimeField(auto_now_add=True)
     update_at=models.DateTimeField(auto_now=True)
     def __str__(self):

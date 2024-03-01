@@ -3,20 +3,21 @@
 {% load mptt_tags %}
 
     <header>
+        {% for rs in setting %}
         <!-- Header top area start -->
         <div class="header-top">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col">
                         <div class="welcome-text">
-                            <p>World Wide Completely Free Returns and Shipping</p>
+                            <p>{{rs.title}}</p>
                         </div>
                     </div>
                     <div class="col d-none d-lg-block">
                         <div class="top-nav">
                             <ul>
-                                <li><a href="tel:0123456789"><i class="fa fa-phone"></i> +012 3456 789</a></li>
-                                <li><a href="mailto:demo@example.com"><i class="fa fa-envelope-o"></i> demo@example.com</a></li>
+                                <li><a href="tel:{{rs.phone}}"><i class="fa fa-phone"></i>{{rs.phone}}</a></li>
+                                <li><a href="mailto:{{rs.email}}"><i class="fa fa-envelope-o"></i> {{rs.email}}</a></li>
                                 <li><a href="my-account.html"><i class="fa fa-user"></i> Account</a></li>
                             </ul>
                         </div>
@@ -29,19 +30,46 @@
         <div class="header-bottom  d-none d-lg-block">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-3 col">
+                    <div class="col-lg-2 col">
                         <div class="header-logo">
-                            <a href="index.html"><img src="{% static '' %}assets/images/logo/logo.png" alt="Site Logo" /></a>
+                            <a href="/"><img src="{{rs.logo.url}}" style="height: 60px;" alt="Site Logo" /></a>
                         </div>
                     </div>
+                                        
                     <div class="col-lg-6 d-none d-lg-block">
-                        <div class="search-element">
-                            <form action="#">
-                                <input type="text" placeholder="Search" />
-                                <button><i class="pe-7s-search"></i></button>
-                            </form>
+                        <div class="row">
+                            <div class="search-element"> 
+                                <form action="/search/" method="post">
+                                    {% csrf_token %}                                   
+                                    
+                                    <div class="">
+                                        <input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">                                    
+                                        <button><i class="pe-7s-search"></i></button>
+                                    </div>
+                                    
+                                    <div class="header__search-cat">
+                                        <select name="catid"  class="input search-categories">                           
+                                            <option value="0">All Categories</option>        
+                                            {% load mptt_tags %}
+                                            {% recursetree category %}        
+                                                {% if node.is_leaf_node %}
+                                                <option value="{{node.id}}">{{node.title}}</option>
+                                                {% endif %}        
+                                                {% if not node.is_leaf_node %}        
+                                                <optgroup label="{{node.title}}" >
+                                                    {{children}}
+                                                </optgroup>
+                                                {% endif %}        
+                                            {% endrecursetree %}  
+                                        </select>
+                                    </div>
+                                    
+                                </form>
+                                
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-3 col">
                         <div class="header-actions">
                             <!-- Single Wedge Start -->
@@ -67,7 +95,7 @@
         <div class="header-bottom d-lg-none sticky-nav style-1">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-3 col">
+                    <div class="col-lg-2 col">
                         <div class="header-logo">
                             <a href="index.html"><img src="{% static '' %}assets/images/logo/logo.png" alt="Site Logo" /></a>
                         </div>
@@ -100,23 +128,22 @@
                 </div>
             </div>
         </div>
+
+        {% endfor %}
         <!-- Header action area end -->
+
+
         <!-- header navigation area start -->
         <div class="header-nav-area d-none d-lg-block sticky-nav">
             <div class="container">
                 <div class="header-nav">
                     <div class="main-menu position-relative">
                         <ul>
-                            <li class=""><a href="#">Home </i></a></li>                           
+                            <li class=""><a href="/">Home </i></a></li>                           
                             
                             <li><a href="about.html">Product</a></li>
-                            <li class="dropdown"><a href="#">Brand <i class="fa fa-angle-down"></i></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown"><a href="#">About <i class="fa fa-angle-down"></i></a>
+                            
+                            <li class="dropdown"><a href="{% url "aboutus" %}">About <i class="fa fa-angle-down"></i></a>
                                 <ul class="sub-menu">
                                     <li><a href="index.html">FAQ 1</a></li>
                                     <li><a href="index-2.html">Carier</a></li>
@@ -130,11 +157,11 @@
                                 <ul class="sub-menu">
                                     {% recursetree category %}
 
-                                    <li class="dropdown position-static"><a href="blog-grid-left-sidebar.html">{{ node.title }}
+                                    <li class="dropdown position-static"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
                                             <i class="fa fa-angle-right"></i></a>
                                         {% if not node.is_leaf_node %}
                                         <ul class="sub-menu sub-menu-2">
-                                            <li><a href="blog-grid.html">{{ children }}</a></li>                                            
+                                            <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
                                         </ul>
                                         {% endif %}
 
@@ -143,7 +170,7 @@
                                     
                                 </ul>
                             </li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="{% url "contactus" %}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -153,16 +180,43 @@
         <div class="mobile-search-box d-lg-none">
             <div class="container">
                 <!-- mobile search start -->
-                <div class="search-element max-width-100">
-                    <form action="#">
-                        <input type="text" placeholder="Search" />
-                        <button><i class="pe-7s-search"></i></button>
-                    </form>
-                </div>
+                <div class="row">
+                            <div class="search-element"> 
+                                <form action="/search/" method="post">
+                                    {% csrf_token %}                                   
+                                    
+                                    <div class="">
+                                        <input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">                                    
+                                        <button><i class="pe-7s-search"></i></button>
+                                    </div>
+                                    
+                                    <div class="header__search-cat">
+                                        <select name="catid"  class="input search-categories">                           
+                                            <option value="0">All Categories</option>        
+                                            {% load mptt_tags %}
+                                            {% recursetree category %}        
+                                                {% if node.is_leaf_node %}
+                                                <option value="{{node.id}}">{{node.title}}</option>
+                                                {% endif %}        
+                                                {% if not node.is_leaf_node %}        
+                                                <optgroup label="{{node.title}}" >
+                                                    {{children}}
+                                                </optgroup>
+                                                {% endif %}        
+                                            {% endrecursetree %}  
+                                        </select>
+                                    </div>
+                                    
+                                </form>
+                                
+                            </div>
+                        </div>  
                 <!-- mobile search start -->
             </div>
         </div>
     </header>
+
+    
     <!-- offcanvas overlay start -->
     <div class="offcanvas-overlay"></div>
     <!-- offcanvas overlay end -->
@@ -266,107 +320,38 @@
         <div class="inner customScroll">
             <div class="offcanvas-menu mb-4">
                 <ul>
-                    <li><a href="#"><span class="menu-text">Home</span></a>
+                    <li class=""><a href="/">Home </i></a></li>                           
+                    
+                    <li><a href="about.html">Product</a></li>
+                    
+                    <li class="dropdown"><a href="{% url "aboutus" %}">About <i class="fa fa-angle-down"></i></a>
                         <ul class="sub-menu">
-                            <li><a href="index.html"><span class="menu-text">Home 1</span></a></li>
-                            <li><a href="index-2.html"><span class="menu-text">Home 2</span></a></li>
+                            <li><a href="index.html">FAQ 1</a></li>
+                            <li><a href="index-2.html">Carier</a></li>
                         </ul>
                     </li>
-                    <li><a href="about.html">About</a></li>
-                    <li>
-                        <a href="#"><span class="menu-text">Pages</span></a>
+                    
+                    
+                    
+                    <li class="dropdown "><a href="#">Category <i class="fa fa-angle-down"></i></a>
+
                         <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Inner Pages</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="404.html">404 Page</a></li>
-                                    <li><a href="order-tracking.html">Order Tracking</a></li>
-                                    <li><a href="faq.html">Faq Page</a></li>
-                                    <li><a href="coming-soon.html">Coming Soon Page</a></li>
+                            {% recursetree category %}
+
+                            <li class="dropdown position-static"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
+                                    <i class="fa fa-angle-right"></i></a>
+                                {% if not node.is_leaf_node %}
+                                <ul class="sub-menu sub-menu-2">
+                                    <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
                                 </ul>
+                                {% endif %}
+
                             </li>
-                            <li>
-                                <a href="#"><span class="menu-text"> Other Shop Pages</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="compare.html">Compare Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Related Shop Page</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="my-account.html">Account Page</a></li>
-                                    <li><a href="login.html">Login & Register Page</a></li>
-                                    <li><a href="empty-cart.html">Empty Cart Page</a></li>
-                                    <li><a href="thank-you-page.html">Thank You Page</a></li>
-                                </ul>
-                            </li>
+                            {% endrecursetree %}
+                            
                         </ul>
                     </li>
-                    <li><a href="#"><span class="menu-text">Shop</span></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Shop Page</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-3-column.html">Shop 3 Column</a></li>
-                                    <li><a href="shop-4-column.html">Shop 4 Column</a></li>
-                                    <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                    <li><a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a>
-                                    </li>
-                                    <li><a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
-                                    </li>
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">product Details Page</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="single-product.html">Product Single</a></li>
-                                    <li><a href="single-product-variable.html">Product Variable</a></li>
-                                    <li><a href="single-product-affiliate.html">Product Affiliate</a></li>
-                                    <li><a href="single-product-group.html">Product Group</a></li>
-                                    <li><a href="single-product-tabstyle-2.html">Product Tab 2</a></li>
-                                    <li><a href="single-product-tabstyle-3.html">Product Tab 3</a></li>
-                                    <li><a href="single-product-slider.html">Product Slider</a></li>
-                                    <li><a href="single-product-gallery-left.html">Product Gallery Left</a>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Single Product Page</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="single-product-gallery-right.html">Product Gallery
-                                            Right</a> </li>
-                                    <li><a href="single-product-sticky-left.html">Product Sticky Left</a>
-                                    </li>
-                                    <li><a href="single-product-sticky-right.html">Product Sticky Right</a>
-                                    </li>
-                                    <li><a href="compare.html">Compare Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
-                                    <li><a href="my-account.html">Account Page</a></li>
-                                    <li><a href="login.html">Login & Register Page</a></li>
-                                    <li><a href="empty-cart.html">Empty Cart Page</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><span class="menu-text">Blog</span></a>
-                        <ul class="sub-menu">
-                            <li><a href="blog-grid.html">Blog Grid Page</a></li>
-                            <li><a href="blog-grid-left-sidebar.html">Grid Left Sidebar</a></li>
-                            <li><a href="blog-grid-right-sidebar.html">Grid Right Sidebar</a></li>
-                            <li><a href="blog-list.html">Blog List Page</a></li>
-                            <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a></li>
-                            <li><a href="blog-list-right-sidebar.html">List Right Sidebar</a></li>
-                            <li><a href="blog-single.html">Blog Single Page</a></li>
-                            <li><a href="blog-single-left-sidebar.html">Single Left Sidebar</a></li>
-                            <li><a href="blog-single-right-sidebar.html">Single Right Sidbar</a>
-                        </ul>
-                    </li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="{% url "contactus" %}">Contact</a></li>
                 </ul>
             </div>
         </div>

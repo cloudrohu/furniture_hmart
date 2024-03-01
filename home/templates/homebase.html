@@ -4,14 +4,17 @@
 	{% load static %}	
 	
 	<head>
+		{% for rs in setting %}
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Best interior designer in Ahmedabad</title>
-		<meta name="robots" content="index, follow" />
+		<title>{{rs.keywords}}</title>
+		<meta name="robots" content="{{rs.description}}" />
 		<meta name="description" content="Hmart-Smart Product eCommerce html Template">
 		<!-- Favicon -->
-		<link rel="shortcut icon" type="image/x-icon" href="{% static '' %}assets/images/favicon.ico" />
+		
+		<link rel="shortcut icon" type="image/x-icon" href="{{rs.icon.url}}" />
+		{% endfor %}
 		<!-- CSS
 		============================================ -->
 		<!-- <link rel="stylesheet" href="{% static '' %}assets/css/bootstrap.min.css" />
