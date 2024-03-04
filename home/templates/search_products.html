@@ -4,11 +4,12 @@
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 
-
+{% load static %}
 {% block body %}
 
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
+		<br>
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="/">Home</a></li>
@@ -17,147 +18,444 @@
 		</div>
 	</div>
 	<!-- /BREADCRUMB -->
-	<!-- section -->
-	<div class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
+	
 
-				<!-- MAIN -->
-				<div id="main" class="col-md-12">
-					<!-- store top filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store top filter -->
+	<!-- breadcrumb-area end -->
+        <!-- Shop Page Start  -->
+        <div class="shop-category-area pt-100px pb-100px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 order-lg-last col-md-12 order-md-first">
+                        <!-- Shop Top Area Start -->
+                        <div class="shop-top-bar d-flex">
+                            <p class="compare-product"> <span>12</span> Product Found of <span>30</span></p>
+                            <!-- Left Side End -->
+                            <div class="shop-tab nav">
+                                <button data-bs-target="#shop-grid" data-bs-toggle="tab">
+                                    <i class="fa fa-th" aria-hidden="true"></i>
+                                </button>
+                                <button class="active" data-bs-target="#shop-list" data-bs-toggle="tab">
+                                    <i class="fa fa-list" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <!-- Right Side Start -->
+                            <div class="select-shoing-wrap d-flex align-items-center">
+                                <div class="shot-product">
+                                    <p>Sort By:</p>
+                                </div>
+                                <!-- Single Wedge End -->
+                                <div class="header-bottom-set dropdown">
+                                    <button class="dropdown-toggle header-action-btn" data-bs-toggle="dropdown">Default <i class="fa fa-angle-down"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a class="dropdown-item" href="#">Name, A to Z</a></li>
+                                        <li><a class="dropdown-item" href="#">Name, Z to A</a></li>
+                                        <li><a class="dropdown-item" href="#">Price, low to high</a></li>
+                                        <li><a class="dropdown-item" href="#">Price, high to low</a></li>
+                                        <li><a class="dropdown-item" href="#">Sort By new</a></li>
+                                        <li><a class="dropdown-item" href="#">Sort By old</a></li>
+                                    </ul>
+                                </div>
+                                <!-- Single Wedge Start -->
+                            </div>
+                            <!-- Right Side End -->
+                        </div>
+                        <!-- Shop Top Area End -->
+                        <!-- Shop Bottom Area Start -->
+                        <div class="shop-bottom-area">
+                            <!-- Tab Content Area Start -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade " id="shop-grid">
+                                            <div class="row mb-n-30px">
+												{% for rs in products %}
+                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mb-30px">
+                                                    <!-- Single Prodect -->
+                                                    <div class="product">
+                                                        <span class="badges">
+                                                        <span class="new">New</span>
+                                                        </span>
+                                                        <div class="thumb">
+                                                            <a href="/product/{{ rs.id }}/{{ rs.slug }}"  class="image">
+                                                                <img src="{{ rs.image.url }}" style="height: 225px;" alt="Product" />
+                                                                <img class="hover-image" src="{{ rs.image.url }}" style="height: 225px;" alt="Product" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="content">
+															<br>
+                                                            <span class="category"><a href="#">{{ rs.category }}</a></span>
+                                                            <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}
+                                                                </a>
+                                                            </h5>
+                                                            <span class="price">
+                                                            <span class="new">$38.50</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="actions">
+                                                            <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
+                                                                class="pe-7s-shopbag"></i></button>
+                                                            <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
+                                                                    class="pe-7s-like"></i></button>
+                                                            <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
+                                                            <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
+                                                                    class="pe-7s-refresh-2"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												{% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show active mb-n-30px " id="shop-list">
 
-					<!-- STORE -->
-					<div id="store">
-						<!-- row -->
+
+                                			{% for rs in products %}
+                                            
+                                            <div class="shop-list-wrapper mb-30px">
+                                                <div class="row">
+                                                    <div class="col-md-5 col-lg-5 col-xl-4 mb-lm-30px">
+                                                        <div class="product">
+                                                            <div class="thumb">
+                                                                <a href="/product/{{ rs.id }}/{{ rs.slug }}" class="image">
+                                                                    <img src="{{ rs.image.url }}" style="height: 225px;" style alt="Product" />
+                                                                    <img class="hover-image" src="{{ rs.image.url }}" style="height: 225px;" alt="Product" />
+                                                                </a>
+                                                                <span class="badges">
+                                                                <span class="sale">-10%</span>
+                                                                <span class="new">New</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7 col-lg-7 col-xl-8">
+                                                        <div class="content-desc-wrap">
+                                                            <div class="content">
+                                                                <span class="category"><a href="#">{{ rs.category }}</a></span>
+                                                                <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h5>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                                                    sed do eiusmodol tempor incididunt ut labore et dolore
+                                                                    magna aliqua. Ut enim ad minim veni quis nostrud
+                                                                    exercitation ullamco laboris </p>
+                                                            </div>
+                                                            <div class="box-inner">
+                                                                <span class="price">
+                                                                <span class="old">$48.50</span>
+                                                                <span class="new">$38.50</span>
+                                                                </span>
+                                                                <div class="actions">
+                                                                    <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
+                                                                        class="pe-7s-shopbag"></i></button>
+                                                                    <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
+                                                                            class="pe-7s-like"></i></button>
+                                                                    <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
+                                                                    <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
+                                                                            class="pe-7s-refresh-2"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+											{% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab Content Area End -->
+                            <!--  Pagination Area Start -->
+                            <div class="pro-pagination-style text-center text-lg-end" data-aos="fade-up" data-aos-delay="200">
+                                <div class="pages">
+                                    <ul>
+                                        <li class="li"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+                                        </li>
+                                        <li class="li"><a class="page-link" href="#">1</a></li>
+                                        <li class="li"><a class="page-link active" href="#">2</a></li>
+                                        <li class="li"><a class="page-link" href="#">3</a></li>
+                                        <li class="li"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--  Pagination Area End -->
+                        </div>
+                        <!-- Shop Bottom Area End -->
+                    </div>
+                    <!-- Sidebar Area Start -->
+                    <div class="col-lg-3 order-lg-first col-md-12 order-md-last">
+                        <div class="shop-sidebar-wrap">
+                            <!-- Sidebar single item -->
+                            <div class="sidebar-widget">
+                                <h4 class="sidebar-title">Top Categories</h4>
+                                <div class="sidebar-widget-category">
+                                    <ul>
+                                        <li><a href="#" class="selected m-0"> All
+                                                <span>(65)</span> </a></li>
+                                        <li><a href="#" class=""> Computer
+                                                <span>(12)</span> </a></li>
+                                        <li><a href="#" class=""> Covid-19
+                                                <span>(22)</span> </a></li>
+                                        <li><a href="#" class=""> Electronics
+                                                <span>(19)</span> </a></li>
+                                        <li><a href="#" class=""> Frame Sunglasses
+                                                <span>(17)</span> </a></li>
+                                        <li><a href="#" class=""> Furniture
+                                                <span>(7)</span> </a></li>
+                                        <li><a href="#" class=""> Genuine Leather
+                                                <span>(9)</span> </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Sidebar single item -->
+                            <div class="sidebar-widget mt-8">
+                                <h4 class="sidebar-title">Price Filter</h4>
+                                <div class="price-filter">
+                                    <div class="price-slider-amount">
+                                        <input type="text" id="amount" class="p-0 h-auto lh-1" name="price" placeholder="Add Your Price" />
+                                    </div>
+                                    <div id="slider-range"></div>
+                                </div>
+                            </div>
+                            <!-- Sidebar single item -->
+                            <div class="sidebar-widget">
+                                <h4 class="sidebar-title">Color</h4>
+                                <div class="sidebar-widget-color">
+                                    <ul class="d-flex flex-wrap">
+                                        <li><a href="#" class="color-1"></a></li>
+                                        <li><a href="#" class="color-2"></a></li>
+                                        <li><a href="#" class="color-3"></a></li>
+                                        <li><a href="#" class="color-4"></a></li>
+                                        <li><a href="#" class="color-5"></a></li>
+                                        <li><a href="#" class="color-6"></a></li>
+                                        <li><a href="#" class="color-7"></a></li>
+                                        <li><a href="#" class="color-8"></a></li>
+                                        <li><a href="#" class="color-9"></a></li>
+                                        <li><a href="#" class="color-10"></a></li>
+                                        <li><a href="#" class="color-11"></a></li>
+                                        <li><a href="#" class="color-12"></a></li>
+                                        <li><a href="#" class="color-13"></a></li>
+                                        <li><a href="#" class="color-14"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Sidebar single item -->
+                            <div class="sidebar-widget">
+                                <h4 class="sidebar-title">Size</h4>
+                                <div class="sidebar-widget-size">
+                                    <ul>
+                                        <li><a href="#" class="selected m-0"> All
+                                                <span>(6)</span> </a></li>
+                                        <li><a href="#" class=""> S <span>(12)</span> </a>
+                                        </li>
+                                        <li><a href="#" class=""> M <span>(21)</span> </a>
+                                        </li>
+                                        <li><a href="#" class=""> L <span>(16)</span> </a>
+                                        </li>
+                                        <li><a href="#" class=""> XL <span>(22)</span> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Sidebar single item -->
+                            <div class="sidebar-widget">
+                                <h4 class="sidebar-title">Brands</h4>
+                                <div class="sidebar-widget-brand">
+                                    <ul>
+                                        <li><a href="#" class="selected m-0"> Lakmeeto<span>(65)</span> </a></li>
+                                        <li><a href="#" class=""> Beautifill <span>(14)</span></a></li>
+                                        <li><a href="#" class=""> Made In GD <span>(21)</span></a></li>
+                                        <li><a href="#" class=""> Pecifico <span>(16)</span></a></li>
+                                        <li><a href="#" class=""> Xlovgtir<span>(12)</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Sidebar single item -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Page End  -->
+
+		<!-- Modal -->
+		<div class="modal modal-2 fade" id="exampleModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
 						<div class="row">
-
-                            <div class="col-md-12">
-						<div class="order-summary clearfix">
-							<div class="section-title">
-								<h3 class="title">Product List</h3>
+							<div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
+								<!-- Swiper -->
+								<div class="swiper-container gallery-top">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/zoom-image/1.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/zoom-image/2.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/zoom-image/3.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/zoom-image/4.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/zoom-image/5.webp" alt="">
+										</div>
+									</div>
+								</div>
+								<div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/small-image/1.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/small-image/2.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/small-image/3.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/small-image/4.webp" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img class="img-responsive m-auto" src="assets/images/product-image/small-image/5.webp" alt="">
+										</div>
+									</div>
+									<!-- Add Arrows -->
+									<div class="swiper-buttons">
+										<div class="swiper-button-next"></div>
+										<div class="swiper-button-prev"></div>
+									</div>
+								</div>
 							</div>
-							<table class="shopping-cart-table table">
-								<thead>
-									<tr>
-										<th>Product</th>
-										<th>Product</th>
-                                        <th>Category</th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-
-										<th class="text-right"></th>
-									</tr>
-								</thead>
-								<tbody>
-
-                                {% for rs in products %}
-									<tr>
-										<td class="thumb"><a href="/product/{{ rs.id }}/{{ rs.slug }}">
-                                            <img src="{{ rs.image.url }}" alt="" style="height: 100px">
-                                        </a></td>
-
-										<td class="details"> <a href="/product/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a>	</td>
-                                        <td class="details"> <a href="/category/{{ rs.category_id }}/{{ rs.category.slug }}">{{ rs.category }}</a>	</td>
-										<td class="price text-center"><strong></strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-
-										<td class="text-right"><a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a></td>
-									</tr>
-                                    {% endfor %}
-
-								</tbody>
-
-							</table>
-
+							<div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+								<div class="product-details-content quickview-content">
+									<h2>Modern Smart Phone</h2>
+									<div class="pricing-meta">
+										<ul class="d-flex">
+											<li class="new-price">$20.90</li>
+										</ul>
+									</div>
+									<div class="pro-details-rating-wrap">
+										<div class="rating-product">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
+									</div>
+									<p class="mt-30px">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat. Duis aute irure dolor</p>
+									<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+										<span>SKU:</span>
+										<ul class="d-flex">
+											<li>
+												<a href="#">Ch-256xl</a>
+											</li>
+										</ul>
+									</div>
+									<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+										<span>Categories: </span>
+										<ul class="d-flex">
+											<li>
+												<a href="#">Smart Device, </a>
+											</li>
+											<li>
+												<a href="#">ETC</a>
+											</li>
+										</ul>
+									</div>
+									<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+										<span>Tags: </span>
+										<ul class="d-flex">
+											<li>
+												<a href="#">Smart Device, </a>
+											</li>
+											<li>
+												<a href="#">Phone</a>
+											</li>
+										</ul>
+									</div>
+									<div class="pro-details-quality">
+										<div class="cart-plus-minus">
+											<input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
+										</div>
+										<div class="pro-details-cart">
+											<button class="add-cart"> Add To
+												Cart</button>
+										</div>
+										<div class="pro-details-compare-wishlist pro-details-wishlist ">
+											<a href="wishlist.html"><i class="pe-7s-like"></i></a>
+										</div>
+									</div>
+									<div class="payment-img">
+										<a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
+									</div>
+								</div>
+							</div>
 						</div>
-
 					</div>
-
-						</div>
-						<!-- /row -->
-					</div>
-					<!-- /STORE -->
-
-					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store bottom filter -->
 				</div>
-				<!-- /MAIN -->
 			</div>
-			<!-- /row -->
 		</div>
-		<!-- /container -->
-	</div>
-	<!-- /section -->
+		<!-- Modal end -->
+		<!-- Modal Cart -->
+		<div class="modal customize-class fade" id="exampleModal-Cart" tabindex="-1"   aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
+						<div class="tt-modal-messages">
+							<i class="pe-7s-check"></i> Added to cart successfully!
+						</div>
+						<div class="tt-modal-product">
+							<div class="tt-img">
+								<img src="assets/images/product-image/1.webp" alt="Modern Smart Phone">
+							</div>
+							<h2 class="tt-title"><a href="#">Modern Smart Phone</a></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>     
+		<!-- Modal wishlist -->
+		<div class="modal customize-class fade" id="exampleModal-Wishlist" tabindex="-1"   aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
+						<div class="tt-modal-messages">
+							<i class="pe-7s-check"></i> Added to Wishlist successfully!
+						</div>
+						<div class="tt-modal-product">
+							<div class="tt-img">
+								<img src="assets/images/product-image/1.webp" alt="Modern Smart Phone">
+							</div>
+							<h2 class="tt-title"><a href="#">Modern Smart Phone</a></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>    
+		<!-- Modal compare -->
+		<div class="modal customize-class fade" id="exampleModal-Compare" tabindex="-1"   aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
+						<div class="tt-modal-messages">
+							<i class="pe-7s-check"></i> Added to compare successfully!
+						</div>
+						<div class="tt-modal-product">
+							<div class="tt-img">
+								<img src="assets/images/product-image/1.webp" alt="Modern Smart Phone">
+							</div>
+							<h2 class="tt-title"><a href="#">Modern Smart Phone</a></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 {% endblock %}

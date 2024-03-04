@@ -206,7 +206,7 @@ def product_detail(request,id,slug):
                         'variant': variant,'query': query
                         })
     
-    return render(request,'product_detail1.html',context)
+    return render(request,'product_detail.html',context)
 
 
 def ajaxcolor(request):

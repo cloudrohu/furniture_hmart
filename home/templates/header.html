@@ -97,7 +97,9 @@
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-2 col">
                         <div class="header-logo">
-                            <a href="index.html"><img src="{% static '' %}assets/images/logo/logo.png" alt="Site Logo" /></a>
+                            
+                            <a href="/"><img src="{{rs.logo.url}}" style="height: 45px;" alt="Site Logo" /></a>
+                           
                         </div>
                     </div>
                     <div class="col-lg-6 d-none d-lg-block">
@@ -139,37 +141,25 @@
                 <div class="header-nav">
                     <div class="main-menu position-relative">
                         <ul>
-                            <li class=""><a href="/">Home </i></a></li>                           
-                            
-                            <li><a href="about.html">Product</a></li>
-                            
-                            <li class="dropdown"><a href="{% url "aboutus" %}">About <i class="fa fa-angle-down"></i></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html">FAQ 1</a></li>
-                                    <li><a href="index-2.html">Carier</a></li>
-                                </ul>
-                            </li>
+                            <li class=""><a href="/">Home </i></a></li>                         
                             
                             
-                            
-                            <li class="dropdown "><a href="#">Category <i class="fa fa-angle-down"></i></a>
-
+                            <li class="dropdown "><a href="#">Product <i class="fa fa-angle-down"></i></a>
                                 <ul class="sub-menu">
                                     {% recursetree category %}
-
                                     <li class="dropdown position-static"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
                                             <i class="fa fa-angle-right"></i></a>
                                         {% if not node.is_leaf_node %}
                                         <ul class="sub-menu sub-menu-2">
-                                            <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
+                                            <li class="dropdown position-static"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
                                         </ul>
                                         {% endif %}
-
                                     </li>
-                                    {% endrecursetree %}
-                                    
+                                    {% endrecursetree %}                                    
                                 </ul>
                             </li>
+                            <li><a href="/">Blog</a></li>
+                            <li><a href="{% url "aboutus" %}">About</a></li> 
                             <li><a href="{% url "contactus" %}">Contact</a></li>
                         </ul>
                     </div>
@@ -214,9 +204,7 @@
                 <!-- mobile search start -->
             </div>
         </div>
-    </header>
-
-    
+    </header>    
     <!-- offcanvas overlay start -->
     <div class="offcanvas-overlay"></div>
     <!-- offcanvas overlay end -->
@@ -312,45 +300,33 @@
         <button class="offcanvas-close"></button>
         <div class="user-panel">
             <ul>
-                <li><a href="tel:0123456789"><i class="fa fa-phone"></i> +012 3456 789</a></li>
-                <li><a href="mailto:demo@example.com"><i class="fa fa-envelope-o"></i> demo@example.com</a></li>
-                <li><a href="my-account.html"><i class="fa fa-user"></i> Account</a></li>
+                {% for rs in setting %}
+                <li><a href="tel:{{rs.phone}}"><i class="fa fa-phone"></i> {{rs.phone}}</a></li>
+                <li><a href="mailto:{{rs.email}}"><i class="fa fa-envelope-o"></i> {{rs.email}}</a></li>
+                <li><a href="/"><i class="fa fa-user"></i> Account</a></li>
+                {% endfor %}
             </ul>
         </div>
         <div class="inner customScroll">
             <div class="offcanvas-menu mb-4">
                 <ul>
-                    <li class=""><a href="/">Home </i></a></li>                           
-                    
-                    <li><a href="about.html">Product</a></li>
-                    
-                    <li class="dropdown"><a href="{% url "aboutus" %}">About <i class="fa fa-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="index.html">FAQ 1</a></li>
-                            <li><a href="index-2.html">Carier</a></li>
-                        </ul>
-                    </li>
-                    
-                    
-                    
-                    <li class="dropdown "><a href="#">Category <i class="fa fa-angle-down"></i></a>
-
+                    <li class=""><a href="/">Home </i></a></li>            
+                    <li><a href="{% url "aboutus" %}">About</a></li>                    
+                    <li class="dropdown "><a href="#">Product <i class="fa fa-angle-down"></i></a>
                         <ul class="sub-menu">
                             {% recursetree category %}
-
-                            <li class="dropdown position-static"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
+                            <li class="dropdown"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
                                     <i class="fa fa-angle-right"></i></a>
                                 {% if not node.is_leaf_node %}
                                 <ul class="sub-menu sub-menu-2">
-                                    <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
+                                    <li class="dropdown"><a href="/category/{{ node.id }}/{{ node.slug }}">{{ children }}</a></li>                                            
                                 </ul>
                                 {% endif %}
-
                             </li>
-                            {% endrecursetree %}
-                            
+                            {% endrecursetree %}                            
                         </ul>
                     </li>
+                    <li><a href="/">Blog</a></li>
                     <li><a href="{% url "contactus" %}">Contact</a></li>
                 </ul>
             </div>
