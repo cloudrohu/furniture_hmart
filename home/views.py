@@ -29,7 +29,7 @@ def index(request):
     featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]  #first 4 products
     slider = Slider.objects.filter(featured_project = 'True').order_by('id')[0:6]  #first 4 products
     banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2]  #first 4 products
-    brand = Brand.objects.filter(featured_project = 'True').order_by('id')[0:2]  #first 4 products
+    brand = Brand.objects.all().order_by('?')[0:20]  #first 4 products
     products_slider = Product.objects.all().order_by('id')[:4]  #first 4 products
     products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
     featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
