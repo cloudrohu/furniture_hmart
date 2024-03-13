@@ -127,3 +127,21 @@ class Slider(models.Model):
     def __str__(self):
         return self.title
 
+
+class Banner(models.Model):
+    title = models.CharField(max_length=50)
+    linl = models.CharField(max_length=150)
+    image=models.ImageField(blank=True,upload_to='images/')
+    featured_project = models.BooleanField(default=False)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def image_tag(self):
+        if self.image.url is not None:
+            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        else:
+            return ""
+
+    def __str__(self):
+        return self.title
+

@@ -3,27 +3,19 @@
 <!-- Banner Area Start -->
 <div class="banner-area style-two pt-100px pb-100px">
     <div class="container">
+
         <div class="row">
+            {% for rs in banner %}
             <div class="col-md-6">
                 <div class="single-banner nth-child-2 mb-lm-30px">
-                    <img src="{% static '' %}assets/images/banner/6.webp" alt="">
+                    <img src="{{rs.image.url}}" style="height: 265px;" alt="">
                     <div class="banner-content nth-child-3">
-                        <h3 class="title">Speaker</h3>
-                        <span class="category">From $69.00</span>
-                        <a href="shop-left-sidebar.html" class="shop-link">Shop Now <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <h3 class="title"></h3>
+                        <span class="category"></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="single-banner nth-child-2">
-                    <img src="{% static '' %}assets/images/banner/7.webp" alt="">
-                    <div class="banner-content nth-child-2">
-                        <h3 class="title">Smartphone</h3>
-                        <span class="category">From $95.00</span>
-                        <a href="shop-left-sidebar.html" class="shop-link">Shop Now <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}            
         </div>
     </div>
 </div>
@@ -162,8 +154,8 @@
                                                     </a>
                                                 </h5>
                                                 <span class="price">
-                                                    <span class="old">${{rs.price}}</span>
-                                                <span class="new">$38.50</span>
+                                                    <span class="old">₹</span>
+                                                <span class="new">₹{{rs.price}}</span>
                                                 </span>
                                             </div>
                                             <div class="actions">
@@ -206,8 +198,8 @@
                                                     </a>
                                                 </h5>
                                                 <span class="price">
-                                                    <span class="old">${{rs.price}}</span>
-                                                <span class="new">$38.50</span>
+                                                    <span class="old">₹</span>
+                                                <span class="new">₹{{rs.price}}</span>
                                                 </span>
                                             </div>
                                             <div class="actions">
@@ -249,8 +241,8 @@
                                                     </a>
                                                 </h5>
                                                 <span class="price">
-                                                    <span class="old">${{rs.price}}</span>
-                                                <span class="new">$38.50</span>
+                                                    <span class="old">₹</span>
+                                                <span class="new">₹{{rs.price}}</span>
                                                 </span>
                                             </div>
                                             <div class="actions">
@@ -328,8 +320,8 @@
                                             </a>
                                         </h5>
                                         <span class="price">
-                                            <span class="old">$48.50</span>
-                                        <span class="new">$38.50</span>
+                                            <span class="old">₹</span>
+                                        <span class="new">₹{{rs.price}}</span>
                                         </span>
                                     </div>
                                     <div class="actions">
@@ -446,19 +438,13 @@
         <div class="brand-area pt-100px pb-100px">
             <div class="container">
                 <div class="brand-slider swiper-container">
+
                     <div class="swiper-wrapper align-items-center">
+                        {% for rs in brand %}
                         <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class=" img-fluid" src="{% static '' %}assets/images/partner/1.png" alt="" /></a>
+                            <a href="#"><img class=" img-fluid" src="{{rs.image.url}}" alt="" /></a>
                         </div>
-                        <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class=" img-fluid" src="{% static '' %}assets/images/partner/2.png" alt="" /></a>
-                        </div>
-                        <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class=" img-fluid" src="{% static '' %}assets/images/partner/3.png" alt="" /></a>
-                        </div>
-                        <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class=" img-fluid" src="{% static '' %}assets/images/partner/4.png" alt="" /></a>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
