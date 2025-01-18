@@ -9,7 +9,7 @@ class SettingtAdmin(admin.ModelAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class SliderAdmin(admin.ModelAdmin):
-    list_display = ['title','image_tag','featured_project', 'create_at','update_at']
+    list_display = ['title','image','featured_project', 'create_at','update_at']
 
 @admin_thumbnails.thumbnail('image')
 class OfferAdmin(admin.ModelAdmin):

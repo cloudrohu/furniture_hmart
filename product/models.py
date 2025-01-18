@@ -83,6 +83,7 @@ class Category(MPTTModel):
 
 class Product(models.Model):
     PRODUCT_TYPE = (
+        ('None', 'None'),
         ('New Arrivals', 'New Arrivals'),
         ('Top Rated', 'Top Rated'),
         ('Featured', 'Featured'),
