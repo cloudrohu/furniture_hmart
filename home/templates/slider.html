@@ -1,37 +1,66 @@
 <!-- HOME -->
 {% load static %}
-<div class="section ">
-    <div class="hero-slider swiper-container slider-nav-style-1 slider-dot-style-1">
-        <!-- Hero slider Active -->
-        <div class="swiper-wrapper">
-            <!-- Single slider item -->
-            {% for rs in slider %}
-            <div class="hero-slide-item slider-height swiper-slide bg-color1" data-bg-image="{{rs.image.url}}">
-                <div class="container h-100">
-                    <div class="row h-100">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 align-self-center sm-center-view">
-                            
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-flex justify-content-center position-relative align-items-end">
-                            <div class="show-case">
-                                <div class="hero-slide-image">
-                                    <img src="{{rs.image.url}}" alt="" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            
+<!-- SLIDER START HERE -->
+<SLIDER>
+  <div class="relative w-full md:h-[80vh] h-[70vh]  overflow-hidden mt-1"
+    x-data="{
+      current: 1,
+      
+      slides: [
+      {% for rs in slider %}
+        { img: '{{rs.image.url}}', title: '{{rs.title}}'},
+    {% endfor %}
+        ],
+      miniCurrent: 0,
+      miniSlides: [
+      {% for rs in slider %}
+        { img: '{{rs.image.url}}',},
+      {% endfor %}
+      ]
+    }"
+    x-init="
+      setInterval(() => { current = (current + 1) % slides.length }, 5000);
+      setInterval(() => { miniCurrent = (miniCurrent + 1) % miniSlides.length }, 3000);
+    ">
+
+    <!-- Main Slides -->
+    <template x-for="(slide, index) in slides" :key="index">
+      <div class="absolute inset-0 transition-all duration-700"
+        :class="{ 'opacity-100 translate-x-0': index === current, 'opacity-0 translate-x-full': index !== current }"
+        x-bind:style="'background-image: url(' + slide.img + '); background-size: cover; background-position: center;'">
+        <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-white text-center p-6">
+          <h2 class="text-4xl md:text-6xl font-bold mb-4" x-text="slide.title"></h2>
+          <p class="text-lg md:text-xl max-w-xl" x-text="slide.text"></p>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination swiper-pagination-white"></div>
-        <!-- Add Arrows -->
-        <div class="swiper-buttons">
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
+      </div>
+    </template>
+
+    <!-- Navigation Arrows -->
+    <button @click="current = (current - 1 + slides.length) % slides.length" 
+      class="absolute left-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-3">
+      &#10094;
+    </button>
+    <button @click="current = (current + 1) % slides.length" 
+      class="absolute right-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-3">
+      &#10095;
+    </button>
+
+    <!-- Mini Slider at Bottom -->
+    <div class="absolute bottom-0 w-full bg-black/50 py-4">
+      <div class="flex justify-center items-center space-x-4 overflow-hidden relative">
+        <template x-for="(mSlide, mIndex) in miniSlides" :key="mIndex">
+          <div class="transition-all duration-500 transform"
+            :class="{
+              'translate-y-0 opacity-100': mIndex === miniCurrent,
+              'translate-y-full opacity-0 absolute': mIndex !== miniCurrent
+            }">
+            <img :src="mSlide.img" class="w-40 h-24 object-cover rounded-lg shadow-lg border border-white/20">
+            <p class="text-white text-sm mt-1" x-text="mSlide.text"></p>
+          </div>
+        </template>
+      </div>
     </div>
-</div>
-<!-- Hero/Intro Slider End -->
+
+  </div>
+</SLIDER>
+<!-- SLIDER END HERE -->

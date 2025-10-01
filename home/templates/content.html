@@ -1,551 +1,310 @@
 {% load static %}
 
-<!-- Banner Area Start -->
-<div class="banner-area style-two pt-100px pb-100px">
-    <div class="container">
 
-        <div class="row">
-            {% for rs in banner %}
-            <div class="col-md-6">
-                <div class="single-banner nth-child-2 mb-lm-30px">
-                    <img src="{{rs.image.url}}" style="height: 265px;" alt="">
-                    <div class="banner-content nth-child-3">
-                        <h3 class="title"></h3>
-                        <span class="category"></span>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}            
-        </div>
-    </div>
-</div>
-<!-- Banner Area End -->
-<!-- Product Area Start -->
-<div class="product-area related-product">
-    <div class="container">
-        <!-- Section Title & Tab Start -->
-        <div class="row">
-            <div class="col-12">
-                <div class="section-title text-center m-0">
-                    <h4 class="title">Products Category </h4>
-                    <p>There are many variations of passages of Lorem Ipsum available</p>
-                </div>
-            </div>
-        </div>
-        <!-- Section Title & Tab End -->
-        <div class="row">
-            <div class="col">
+<!-- CETEGORY START HERE -->
+<section class="max-w-7xl mx-auto py-24 px-6 mt-10 bg-white shadow-2xl rounded-3xl mb-10">
+  <div class="text-center mb-14">
+    <h2 class="text-4xl md:text-5xl font-extrabold tracking-wide text-gray-900">✨ Products Category</h2>
+    <p class="text-gray-600 mt-3 text-lg">Explore our premium range of furniture, crafted for elegance</p>
+  </div>
 
-                <div class="new-product-slider swiper-container slider-nav-style-1">
-                    <div class="swiper-wrapper">                     
+  <div class="relative">
+    <!-- Left Button -->
+    <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-yellow-500 shadow-lg rounded-full p-4 z-10 text-white text-2xl hover:scale-125 transition-transform">
+      &#8592;
+    </button>
 
-                        {% for rs in category %}
-                        <div class="swiper-slide">
-                            <!-- Single Prodect -->
-                            <div class="product">
-                                
-                                <div class="thumb">
-                                    <a href="/" class="image">
-                                        <img src="{{rs.image.url}}" style="height: 225px;" />
-                                        <img class="hover-image" src="{{rs.image.url}}" style="height: 225px;" alt="Product" />
-                                    </a>
-                                </div>
-                                <br>
-                                <div class="content">
-                                    
-                                    <h5 class="title"><a href="/">{{rs.title}}
-                                        </a>                             
-                                </div>
-                               
-                            </div>
-                        </div>
-                        {% endfor %}
+    <!-- Slider -->
+    <div id="categorySlider" class="flex gap-10 overflow-x-auto scroll-smooth no-scrollbar px-2">
 
-                    </div>
-
-                    
-                    <!-- Add Arrows -->
-                    <div class="swiper-buttons">
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Product Area End -->
-
-
-<!-- Hero/Intro Slider Start -->
+      {% for rs in category %}
+      <!-- Item -->
+      <a href="#"
+        class="min-w-[300px] bg-gradient-to-b from-gray-50 to-white shadow-xl rounded-2xl overflow-hidden text-center border-2 border-transparent hover:border-yellow-500 hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
         
-        <!-- Banner Area Start -->
-        <div class="banner-area style-one pt-100px pb-100px">
-            {% for rs in offer %}
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="single-banner nth-child-1">
-                            <img src="{{rs.image.url}}" style="height: 575px;" alt="">
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="single-banner nth-child-2 mb-30px mb-lm-30px mt-lm-30px ">
-                            <img src="{{rs.image_2.url}}" style="height: 275px;" alt="">
-                            
-                        </div>
-                        <div class="single-banner nth-child-2">
-                            <img src="{{rs.image_3.url}}" style="height: 275px;" alt="">
+        <div class="relative h-56 md:h-64 overflow-hidden">
+          <img src="{{rs.image.url}}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="{{rs.title}}">
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity duration-500">
+            <span class="text-white text-xl font-semibold">View More</span>
+          </div>
+        </div>
 
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            {% endfor %}
+        <div class="py-6">
+          <h3 class="font-bold text-xl text-gray-800">{{rs.title}}</h3>
         </div>
-        <!-- Banner Area End -->
-        <!-- Product Area Start -->
-        <div class="product-area pb-100px">
-            <div class="container">
-                <!-- Section Title & Tab Start -->
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Tab Start -->
-                        <div class="tab-slider d-md-flex justify-content-md-between align-items-md-center">
-                            <ul class="product-tab-nav nav justify-content-start align-items-center">
-                                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#newarrivals">New Arrivals</button>
-                                </li>
-                                <li class="nav-item"><button class="nav-link " data-bs-toggle="tab" data-bs-target="#toprated">Top Rated</button>
-                                </li>
-                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#featured">Featured</button>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Tab End -->
-                    </div>
-                </div>
-                <!-- Section Title & Tab End -->
-                <div class="row">
-                    <div class="col">
-                        <div class="tab-content mt-60px">
-                            <!-- 1st tab start -->
-                            <div class="tab-pane fade show active" id="newarrivals">
-                                <div class="row mb-n-30px">
-                                    {% for rs in New_Arrivals %}
-                                    <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                        <!-- Single Prodect -->
-                                        <div class="product">
-                                            <span class="badges">                                                
-                                            <span class="new">{{rs.type}}</span>
-                                            </span>
-                                            <div class="thumb">
-                                                <a href="/product/{{ rs.id }}/{{ rs.slug }}" class="image">
-                                                    <img src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                    <img class="hover-image" src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                </a>
-                                            </div>
-                                            
-                                            <div class="content">
-                                                <br>
-                                                <span class="category"><a href="#">{{rs.category.title}}</a></span>
-                                                <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}
-                                                    </a>
-                                                </h5>
-                                                <span class="price">
-                                                    <span class="old">₹</span>
-                                                <span class="new">₹{{rs.price}}</span>
-                                                </span>
-                                            </div>
-                                            <div class="actions">
-                                                <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
-                                                    class="pe-7s-shopbag"></i></button>
-                                                <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
-                                                        class="pe-7s-like"></i></button>
-                                                <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
-                                                <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
-                                                        class="pe-7s-refresh-2"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   {% endfor %}
+      </a>
+      {% endfor %}
 
-                                </div>
-                            </div>
-                            <!-- 1st tab end -->
-                            <!-- 2nd tab start -->
-                            <div class="tab-pane fade" id="toprated">
-                                <div class="row">
-                                    {% for rs in Top_Rated %}
-                                    <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                        <!-- Single Prodect -->
-                                        <div class="product">
-                                            <span class="badges">                                                
-                                            <span class="new">{{rs.type}}</span>
-                                            </span>
-                                            <div class="thumb">
-                                                <a href="/product/{{ rs.id }}/{{ rs.slug }}" class="image">
-                                                    <img src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                    <img class="hover-image" src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                </a>
-                                            </div>
-                                            
-                                            <div class="content">
-                                                <br>
-                                                <span class="category"><a href="#">{{rs.category.title}}</a></span>
-                                                <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}
-                                                    </a>
-                                                </h5>
-                                                <span class="price">
-                                                    <span class="old">₹</span>
-                                                <span class="new">₹{{rs.price}}</span>
-                                                </span>
-                                            </div>
-                                            <div class="actions">
-                                                <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
-                                                    class="pe-7s-shopbag"></i></button>
-                                                <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
-                                                        class="pe-7s-like"></i></button>
-                                                <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
-                                                <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
-                                                        class="pe-7s-refresh-2"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   {% endfor %}
-                                </div>
-                            </div>
-                            <!-- 2nd tab end -->
-                            <!-- 3rd tab start -->
-                            <div class="tab-pane fade" id="featured">
-                                <div class="row">
-                                    {% for rs in featured %}
-                                    <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                        <!-- Single Prodect -->
-                                        <div class="product">
-                                            <span class="badges">                                                
-                                            <span class="new">{{rs.type}}</span>
-                                            </span>
-                                            <div class="thumb">
-                                                <a href="/product/{{ rs.id }}/{{ rs.slug }}" class="image">
-                                                    <img src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                    <img class="hover-image" src="{{rs.image.url}}" style="height: 275px;" alt="Product" />
-                                                </a>
-                                            </div>
-                                            
-                                            <div class="content">
-                                                <br>
-                                                <span class="category"><a href="#">{{rs.category.title}}</a></span>
-                                                <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}
-                                                    </a>
-                                                </h5>
-                                                <span class="price">
-                                                    <span class="old">₹</span>
-                                                <span class="new">₹{{rs.price}}</span>
-                                                </span>
-                                            </div>
-                                            <div class="actions">
-                                                <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
-                                                    class="pe-7s-shopbag"></i></button>
-                                                <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
-                                                        class="pe-7s-like"></i></button>
-                                                <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
-                                                <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
-                                                        class="pe-7s-refresh-2"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   {% endfor %}
-                                    
-                                </div>
-                            </div>
-                            <!-- 3rd tab end -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Area End -->
-        <!-- Fashion Area Start -->
-        {% for rs in setting %}
-        <div class="fashion-area" data-bg-image="{{rs.image_1.url}}">
-            {% endfor %}
-            <div class="container h-100">
-                <div class="row justify-content-center align-items-center h-100">
-                    <div class="col-12 text-center">
-                        <h2 class="title"> <span></span> </h2>
-                        <a href="shop-left-sidebar.html" class="btn btn-primary text-capitalize m-auto">Shop All Devices</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Fashion Area End -->
-        <br>
-        <!-- Product Area Start -->
-        <div class="product-area pb-100px">
-            <div class="container">
-                <!-- Section Title & Tab Start -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-title text-center">
-                            <h2 class="title">Featured Products</h2>
-                            <p>There are many variations of passages of Lorem Ipsum available</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Section Title & Tab End -->
-                <div class="row">
-                    <div class="col">
-                        <div class="row mb-n-30px">   
-                            {% for rs in featured_project %}                       
-                            <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                <!-- Single Prodect -->
-                                <div class="product">
-                                    <span class="badges">
-                                        <span class="sale">-10%</span>
-                                    <span class="new">New</span>
-                                    </span>
-                                    <div class="thumb">
-                                        <a href="/product/{{ rs.id }}/{{ rs.slug }}" class="image">
-                                            <img src="{{rs.image.url}}" style="height: 250px;" alt="Product" />
-                                            <img class="hover-image" src="{{rs.image.url}}" style="height: 250px;" alt="Product" />
-                                        </a>
-                                    </div>
-                                    
-                                    <div class="content">
-                                        <br>
-                                        <span class="category"><a href="#">{{rs.category.title}}</a></span>
-                                        <h5 class="title"><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}
-                                            </a>
-                                        </h5>
-                                        <span class="price">
-                                            <span class="old">₹</span>
-                                        <span class="new">₹{{rs.price}}</span>
-                                        </span>
-                                    </div>
-                                    <div class="actions">
-                                                <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
-                                                    class="pe-7s-shopbag"></i></button>
-                                                <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
-                                                        class="pe-7s-like"></i></button>
-                                                <button class="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="pe-7s-look"></i></button>
-                                                <button class="action compare" title="Compare" data-bs-toggle="modal" data-bs-target="#exampleModal-Compare"><i
-                                                        class="pe-7s-refresh-2"></i></button>
-                                            </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Area End -->
-        <!-- Testimonial area start -->
-        <div class="trstimonial-area pt-100px pb-100px">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-title text-center m-0">
-                            <h2 class="title">Client Feedback</h2>
-                            <p>There are many variations of passages of Lorem Ipsum available</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Swiper -->
-                        <div class="swiper-container content-top slider-nav-style-1">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="testi-inner">
-                                        <div class="testi-content">
-                                            <p>Lorem ipsum dolor sit amel adipiscing elit, sed do eiusll tempor incididunt ut laborj et dolore magna sed do eiusll tempor dolore.
-                                            </p>
-                                        </div>
-                                        <div class="testi-author">
-                                            <div class="author-image">
-                                                <img class="img-responsive" src="{% static '' %}assets/images/testimonial/1.png" alt="">
-                                            </div>
-                                            <div class="author-name">
-                                                <h4 class="name">Regan Rosen<span>Client</span></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="testi-inner">
-                                        <div class="testi-content">
-                                            <p>Lorem ipsum dolor sit amel adipiscing elit, sed do eiusll tempor incididunt ut laborj et dolore magna sed do eiusll tempor dolore.
-                                            </p>
-                                        </div>
-                                        <div class="testi-author">
-                                            <div class="author-image">
-                                                <img class="img-responsive" src="{% static '' %}assets/images/testimonial/2.png" alt="">
-                                            </div>
-                                            <div class="author-name">
-                                                <h4 class="name">Regan Rosen<span>Client</span></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="testi-inner">
-                                        <div class="testi-content">
-                                            <p>Lorem ipsum dolor sit amel adipiscing elit, sed do eiusll tempor incididunt ut laborj et dolore magna sed do eiusll tempor dolore.
-                                            </p>
-                                        </div>
-                                        <div class="testi-author">
-                                            <div class="author-image">
-                                                <img class="img-responsive" src="{% static '' %}assets/images/testimonial/1.png" alt="">
-                                            </div>
-                                            <div class="author-name">
-                                                <h4 class="name">Regan Rosen<span>Client</span></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="testi-inner">
-                                        <div class="testi-content">
-                                            <p>Lorem ipsum dolor sit amel adipiscing elit, sed do eiusll tempor incididunt ut laborj et dolore magna sed do eiusll tempor dolore.
-                                            </p>
-                                        </div>
-                                        <div class="testi-author">
-                                            <div class="author-image">
-                                                <img class="img-responsive" src="{% static '' %}assets/images/testimonial/2.png" alt="">
-                                            </div>
-                                            <div class="author-name">
-                                                <h4 class="name">Regan Rosen<span>Client</span></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Add Arrows -->
-                            <div class="swiper-buttons">
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial area end-->
-        <!-- Brand area start -->
-        <div class="brand-area pt-100px pb-100px">
-            <div class="container">
-                <div class="brand-slider swiper-container">
-
-                    <div class="swiper-wrapper align-items-center">
-                        {% for rs in brand %}
-                        <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class=" img-fluid" src="{{rs.image.url}}" alt="" /></a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Brand area end -->
-        <!-- Blog area start from here -->
-        <div class="main-blog-area pb-100px">
-            <div class="container">
-                <!-- section title start -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section-title text-center mb-30px0px">
-                            <h2 class="title">Latest Blog</h2>
-                            <p> There are many variations of passages of Lorem Ipsum available</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- section title start -->
-                <div class="row">
-                    <div class="col-lg-6 col-sm-6 mb-xs-30px">
-                        <div class="single-blog">
-                            <div class="blog-image">
-                                <a href="blog-single-left-sidebar.html"><img src="{% static '' %}assets/images/blog-image/1.webp" class="img-responsive w-100" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <div class="blog-athor-date line-height-1">
-                                    <span class="blog-date"><i class="fa fa-calendar" aria-hidden="true"></i> 27,Jun 2030</span>
-                                    <span><a class="blog-author" href="blog-grid.html"><i class="fa fa-user" aria-hidden="true"></i> Wild Nick</a></span>
-                                </div>
-                                <h5 class="blog-heading"><a class="blog-heading-link" href="blog-single-left-sidebar.html">10 Quick Tips About Smart Product</a></h5>
-                                <p>Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
-                                <a href="blog-single-left-sidebar.html" class="btn btn-primary blog-btn"> Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End single blog -->
-                    <div class="col-lg-6 col-sm-6">
-                        <div class="single-blog">
-                            <div class="blog-image">
-                                <a href="blog-single-left-sidebar.html"><img src="{% static '' %}assets/images/blog-image/2.webp" class="img-responsive w-100" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <div class="blog-athor-date line-height-1">
-                                    <span class="blog-date"><i class="fa fa-calendar" aria-hidden="true"></i> 27,Jun 2030</span>
-                                    <span><a class="blog-author" href="blog-grid.html"><i class="fa fa-user" aria-hidden="true"></i> Oaklee Odom</a></span>
-                                </div>
-                                <h5 class="blog-heading"><a class="blog-heading-link" href="blog-single-left-sidebar.html">5 Real-Life Lessons About Smart Product</a></h5>
-                                <p>Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
-                                <a href="blog-single-left-sidebar.html" class="btn btn-primary blog-btn"> Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End single blog -->
-                </div>
-            </div>
-        </div>
-        <!-- Blog area end here -->
+    </div>
+    
+    <!-- Right Button -->
+    <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-yellow-500 shadow-lg rounded-full p-4 z-10 text-white text-2xl hover:scale-125 transition-transform">
+      &#8594;
+    </button>
+  </div>
+</section>
+<!-- CETEGORY END HERE -->
 
 
-        <!-- Feature Area Srart -->
-        <div class="feature-area pt-100px pb-100px">
-            <div class="container">
-                <div class="feature-wrapper">
-                    <div class="single-feture-col mb-md-30px mb-lm-30px">
-                        <!-- single item -->
-                        <div class="single-feature">
-                            <div class="feature-icon">
-                                <img src="{% static '' %}assets/images/icons/1.png" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">Free Shipping</h4>
-                                <span class="sub-title"></span>
-                            </div>
-                        </div>
+        <!-- PRODUCT START HERE -->
+<product class="bg-[#fdfcf9] py-10">
+    <section class="max-w-7xl mx-auto px-4 py-12 bg-white shadow-lg rounded-lg">
+           
+
+
+
+          <div class="text-center mb-10">
+            <h2 class="text-4xl font-bold tracking-wide text-gray-900">Our Products</h2>
+            <p class="text-gray-600 mt-2">Discover our exclusive furniture collection, blending style and comfort for your home.</p>
+          </div>
+          
+          <!-- Tabs -->
+          <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button class="tab-btn px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-300 bg-yellow-500 text-white scale-105" data-tab="new">✨ New Arrivals</button>
+            <button class="tab-btn px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-300 bg-gray-200 text-gray-700 hover:bg-yellow-400 hover:text-white" data-tab="top">⭐ Top Rated</button>
+            <button class="tab-btn px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-300 bg-gray-200 text-gray-700 hover:bg-yellow-400 hover:text-white" data-tab="feat">🔥 Featured</button>
+          </div>
+
+          <!-- Panels -->
+          <div id="new" class="tab-panel animate-fade-in">
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+        <!-- Card -->
+
+            {% for rs in New_Arrivals %}
+
+              <article class="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition group transform hover:-translate-y-2 duration-300">
+                <span class="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow">NEW</span>
+                    <div class="relative">
+                      <img src="{{rs.image.url}}" alt="Office Table" class="w-full h-56 object-cover">
+                      <!-- Actions -->
+                      <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition duration-300 bg-black/40">
+                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-bag-shopping"></i></button>
+                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-heart"></i></button>
+                                  <!-- Button Eye Popup-->
+                      <button id="opednPopup" class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition">
+                        <a href="{% url 'product_detail' rs.id rs.slug %}">
+                        <i class="fa-solid fa-eye"></i>
+                        </a>
+
+                      </button>
+                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                      </div>
                     </div>
-                    <!-- single item -->
-                    <div class="single-feture-col mb-md-30px mb-lm-30px">
-                        <div class="single-feature">
-                            <div class="feature-icon">
-                                <img src="{% static '' %}assets/images/icons/2.png" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">Card Payments</h4>
-                                <span class="sub-title"></span>
-                            </div>
-                        </div>
+                    <div class="p-5">
+                      <p class="text-xs text-gray-500">{{rs.category}}</p>
+                      <h3 class="text-lg font-semibold mt-1">{{rs.title}}</h3>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-red-600 font-bold">₹{{rs.price}}</span>
+                        <span class="text-red-400 divide-y text-sm">%{{rs.discount}}</span>
+                      </div>
+                      <div class="flex text-yellow-400 mt-2 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        
+                      </div>
+
+                      <button class="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-800 transition duration-300 flex items-center justify-center gap-2 shadow-md">Add to Cart</button>
+
+
                     </div>
-                    <!-- single item -->
-                    <div class="single-feture-col">
-                        <div class="single-feature">
-                            <div class="feature-icon">
-                                <img src="{% static '' %}assets/images/icons/3.png" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">Easy Returns</h4>
-                                <span class="sub-title"></span>
-                            </div>
-                        </div>
-                        <!-- single item -->
-                    </div>
-                </div>
+              </article>
+
+              {% endfor %}
+
+        <!-- Card End-->
+
             </div>
-        </div>
-<!-- Feature Area End -->
+          </div>
+
+          <div id="top" class="tab-panel ">
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <article class="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition group transform hover:-translate-y-2 duration-300">
+                <span class="absolute top-0 left-0 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow">TOP</span>
+                <div class="relative">
+                  <img src="https://images.unsplash.com/photo-1600490036275-35f7fdc5f31d?q=80&w=1200&auto=format&fit=crop" alt="TV Unit" class="w-full h-56 object-cover">
+                </div>
+                <div class="p-5">
+                  <p class="text-xs text-gray-500">T.V. & Entertainment Units</p>
+                  <h3 class="text-lg font-semibold mt-1">Premium TV Unit</h3>
+                  <div class="flex items-center gap-2 mt-2">
+                    <span class="text-red-600 font-bold">₹35,058</span>
+                  </div>
+                  <div class="flex text-yellow-400 mt-2 text-sm">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div id="feat" class="tab-panel hidden">
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <article class="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition group transform hover:-translate-y-2 duration-300">
+                <span class="absolute top-0 left-0 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow">FEATURED</span>
+                <div class="relative">
+                  <img src="https://images.unsplash.com/photo-1582582429720-72a993e5c8fa?q=80&w=1200&auto=format&fit=crop" alt="TV Rack" class="w-full h-56 object-cover">
+                </div>
+                <div class="p-5">
+                  <p class="text-xs text-gray-500">T.V. & Entertainment Units</p>
+                  <h3 class="text-lg font-semibold mt-1">TV-Unit Rack</h3>
+                  <div class="flex items-center gap-2 mt-2">
+                    <span class="text-red-600 font-bold">₹8,968</span>
+                  </div>
+                  <div class="flex text-yellow-400 mt-2 text-sm">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+
+            <div class="text-center mt-6">
+              <a href="product_list.html" 
+                 class="text-indigo-600 font-medium hover:text-indigo-800 hover:underline transition duration-200">
+                 See All Products
+              </a>
+            </div>
+
+
+        </section>
+
+
+
+
+
+        <!-- Animations -->
+        <style>
+          .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+          }
+          @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+          }
+        </style>
+
+        <!-- Tabs JS -->
+        <script>
+        const tabBtns = document.querySelectorAll(".tab-btn");
+        const tabPanels = document.querySelectorAll(".tab-panel");
+
+        tabBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            // Reset tabs
+            tabBtns.forEach(b => b.classList.remove("bg-yellow-500","text-white","scale-105"));
+            tabBtns.forEach(b => b.classList.add("bg-gray-200","text-gray-700"));
+
+            // Active button
+            btn.classList.add("bg-yellow-500","text-white","scale-105");
+            btn.classList.remove("bg-gray-200","text-gray-700");
+
+            // Hide panels
+            tabPanels.forEach(p => { 
+              p.classList.add("hidden"); 
+              p.classList.remove("animate-fade-in");
+            });
+
+            // Show active panel
+            const panel = document.getElementById(btn.dataset.tab);
+            panel.classList.remove("hidden");
+            panel.classList.add("animate-fade-in");
+          });
+        });
+
+        // ✅ Default open "New Arrivals"
+        window.addEventListener("DOMContentLoaded", () => {
+          document.querySelector('.tab-btn[data-tab="new"]').click();
+        });
+        </script>
+
+
+        <script>
+           function changeImage(src) {
+              document.getElementById('pd-img').src = src;
+            }
+
+
+            document.querySelectorAll('.accordion').forEach(a => {
+              a.addEventListener('click', () => {
+                const panel = a.nextElementSibling;
+                panel.classList.toggle('open');
+              });
+            });
+
+            document.querySelectorAll('#size-options .option, #color-options .option').forEach(opt => {
+              opt.addEventListener('click', () => {
+                const siblings = opt.parentElement.querySelectorAll('.option');
+                siblings.forEach(s => s.classList.remove('selected'));
+                opt.classList.add('selected');
+              });
+            });
+
+
+            // Function to load and display reviews from localStorage
+            function loadReviews() {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+                const reviewList = document.getElementById('reviewList');
+                reviewList.innerHTML = ''; // Clear existing reviews
+
+                reviews.forEach((review, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = review;
+
+                    // Create a "Remove" button for each review
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.style.marginLeft = '10px';
+                    removeBtn.addEventListener('click', () => removeReview(index));
+
+                    li.appendChild(removeBtn);
+                    reviewList.appendChild(li);
+                });
+            }
+
+            // Function to remove a review
+            function removeReview(index) {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+                reviews.splice(index, 1); // Remove the review at the given index
+                localStorage.setItem('reviews', JSON.stringify(reviews)); // Update localStorage
+                loadReviews(); // Reload the review list
+            }
+
+            // Function to add a new review
+            function addReview(reviewText) {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+                reviews.push(reviewText);
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                loadReviews(); // Update the review list
+            }
+
+            // Event listener for the submit button
+            document.getElementById('submitReview').addEventListener('click', () => {
+                const reviewText = document.getElementById('reviewText').value.trim();
+                if (reviewText) {
+                    addReview(reviewText); // Add the new review
+                    document.getElementById('reviewText').value = ''; // Clear the input
+                } else {
+                    alert('Please write a review before submitting.');
+                }
+            });
+
+            // Load reviews when the page is loaded
+            window.onload = loadReviews;
+
+        </script>
+        
+    <!-- CETEGORY END HERE -->
+
+
+<br>
+<br>
+</product>
+<!-- PRODUCT START HERE -->

@@ -34,7 +34,7 @@ def index(request):
     products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
     featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
     New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:12]  # last 4 products
-    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:12]  # last 4 products
+    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:8]  # last 4 products
     featured = Product.objects.filter(type = 'Featured').order_by('-id')[:12]  # last 4 products
     products_picked = Product.objects.all().order_by('?')[:8]   #Random selected 4 products
     page="home"
