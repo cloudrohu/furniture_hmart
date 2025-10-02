@@ -121,3 +121,5 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "/404.html"; // Agar koi error aaya to bhi redirect
     });
 });
+
+

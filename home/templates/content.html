@@ -47,7 +47,7 @@
 <!-- CETEGORY END HERE -->
 
 
-        <!-- PRODUCT START HERE -->
+<!-- PRODUCT START HERE -->
 <product class="bg-[#fdfcf9] py-10">
     <section class="max-w-7xl mx-auto px-4 py-12 bg-white shadow-lg rounded-lg">
            
@@ -74,43 +74,51 @@
 
             {% for rs in New_Arrivals %}
 
-              <article class="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition group transform hover:-translate-y-2 duration-300">
+
+
+            <article class="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition group transform hover:-translate-y-2 duration-300">
                 <span class="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow">NEW</span>
-                    <div class="relative">
-                      <img src="{{rs.image.url}}" alt="Office Table" class="w-full h-56 object-cover">
-                      <!-- Actions -->
-                      <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition duration-300 bg-black/40">
-                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-bag-shopping"></i></button>
-                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-heart"></i></button>
-                                  <!-- Button Eye Popup-->
-                      <button id="opednPopup" class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition">
+                  <div class="relative">
+                    <img src="{{rs.image.url}}" alt="Office Table" class="w-full h-56 object-cover">
+
+                    <!-- Actions -->
+                    <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition duration-300 bg-black/40">
+                      <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-bag-shopping"></i></button>
+                      
+                      <!-- ❤️ Heart Button -->
+                      <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition heart-btn">
+                        <i class="fa-solid fa-heart"></i>
+                      </button>
+
+                      <!-- 👁 Eye Button -->
                         <a href="{% url 'product_detail' rs.id rs.slug %}">
-                        <i class="fa-solid fa-eye"></i>
+                          <button id="opednPopup" class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition">
+                              <i class="fa-solid fa-eye"></i>
+                          </button>
                         </a>
 
-                      </button>
-                        <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-                      </div>
+
+                      <button class="bg-white p-3 rounded-full shadow hover:bg-yellow-500 hover:text-white transition"><i class="fa-solid fa-arrow-rotate-right"></i></button>
                     </div>
-                    <div class="p-5">
-                      <p class="text-xs text-gray-500">{{rs.category}}</p>
-                      <h3 class="text-lg font-semibold mt-1">{{rs.title}}</h3>
-                      <div class="flex items-center gap-2 mt-2">
-                        <span class="text-red-600 font-bold">₹{{rs.price}}</span>
-                        <span class="text-red-400 divide-y text-sm">%{{rs.discount}}</span>
-                      </div>
-                      <div class="flex text-yellow-400 mt-2 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        
-                      </div>
+                  </div>
 
-                      <button class="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-800 transition duration-300 flex items-center justify-center gap-2 shadow-md">Add to Cart</button>
-
-
+                  <div class="p-5">
+                    <p class="text-xs text-gray-500 category-text">{{rs.category}}</p>
+                    <h3 class="text-lg font-semibold mt-1">{{rs.title}}</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                      <span class="text-red-600 font-bold">₹{{rs.price}}</span>
+                      <span class="text-red-400 divide-y text-sm">%{{rs.discount}}</span>
                     </div>
+                    <div class="flex text-yellow-400 mt-2 text-sm">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                      <i class="fa-regular fa-star"></i>
+                    </div>
+
+                    <button class="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-800 transition duration-300 flex items-center justify-center gap-2 shadow-md">Add to Cart</button>
+                  </div>
               </article>
+
 
               {% endfor %}
 
@@ -193,41 +201,61 @@
 
         <!-- Tabs JS -->
         <script>
-        const tabBtns = document.querySelectorAll(".tab-btn");
-        const tabPanels = document.querySelectorAll(".tab-panel");
+          const tabBtns = document.querySelectorAll(".tab-btn");
+          const tabPanels = document.querySelectorAll(".tab-panel");
 
-        tabBtns.forEach(btn => {
-          btn.addEventListener("click", () => {
-            // Reset tabs
-            tabBtns.forEach(b => b.classList.remove("bg-yellow-500","text-white","scale-105"));
-            tabBtns.forEach(b => b.classList.add("bg-gray-200","text-gray-700"));
+          tabBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+              // Reset tabs
+              tabBtns.forEach(b => b.classList.remove("bg-yellow-500","text-white","scale-105"));
+              tabBtns.forEach(b => b.classList.add("bg-gray-200","text-gray-700"));
 
-            // Active button
-            btn.classList.add("bg-yellow-500","text-white","scale-105");
-            btn.classList.remove("bg-gray-200","text-gray-700");
+              // Active button
+              btn.classList.add("bg-yellow-500","text-white","scale-105");
+              btn.classList.remove("bg-gray-200","text-gray-700");
 
-            // Hide panels
-            tabPanels.forEach(p => { 
-              p.classList.add("hidden"); 
-              p.classList.remove("animate-fade-in");
+              // Hide panels
+              tabPanels.forEach(p => { 
+                p.classList.add("hidden"); 
+                p.classList.remove("animate-fade-in");
+              });
+
+              // Show active panel
+              const panel = document.getElementById(btn.dataset.tab);
+              panel.classList.remove("hidden");
+              panel.classList.add("animate-fade-in");
             });
-
-            // Show active panel
-            const panel = document.getElementById(btn.dataset.tab);
-            panel.classList.remove("hidden");
-            panel.classList.add("animate-fade-in");
           });
-        });
 
-        // ✅ Default open "New Arrivals"
-        window.addEventListener("DOMContentLoaded", () => {
-          document.querySelector('.tab-btn[data-tab="new"]').click();
-        });
+          // ✅ Default open "New Arrivals"
+          window.addEventListener("DOMContentLoaded", () => {
+            document.querySelector('.tab-btn[data-tab="new"]').click();
+          });
         </script>
 
 
         <script>
-           function changeImage(src) {
+          document.addEventListener("DOMContentLoaded", () => {
+            const heartBtns = document.querySelectorAll(".heart-btn");
+
+            heartBtns.forEach(btn => {
+              btn.addEventListener("click", () => {
+                const categoryText = btn.closest("article").querySelector(".category-text");
+                
+                // Agar already heart hai to toggle kare
+                if (categoryText.querySelector(".red-heart")) {
+                  categoryText.querySelector(".red-heart").remove();
+                } else {
+                  const heart = document.createElement("span");
+                  heart.classList.add("red-heart");
+                  heart.innerHTML = "<i class="fa fa-heart" aria-hidden="true"></i> "; 
+                  heart.style.color = "red";
+                  categoryText.appendChild(heart);
+                }
+              });
+            });
+          });
+                  function changeImage(src) {
               document.getElementById('pd-img').src = src;
             }
 
@@ -301,10 +329,11 @@
 
         </script>
         
-    <!-- CETEGORY END HERE -->
+  <!-- CETEGORY END HERE -->
 
 
-<br>
-<br>
+  <br>
+  <br>
 </product>
 <!-- PRODUCT START HERE -->
+
