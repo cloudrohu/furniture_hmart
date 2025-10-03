@@ -1,6 +1,7 @@
 from django.contrib import admin
 import admin_thumbnails
 
+
 from .models import *
 # Register your models here.
 
@@ -22,8 +23,28 @@ class ContactMessageAdmin(admin.ModelAdmin):
     readonly_fields =('name','subject','email','message','ip')
     list_filter = ['status']
 
-admin.site.register(Setting,SettingtAdmin)
+class ShowroomAdmin(admin.ModelAdmin):
+    list_display = ('city_name', 'store_count', 'is_active', 'order')
+    list_editable = ('store_count', 'is_active', 'order')
+    search_fields = ('city_name',)
+    list_filter = ('is_active',)
+    ordering = ('order',)
 
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'designation', 'rating', 'is_active', 'created_at')
+    list_editable = ('is_active', 'rating')
+    search_fields = ('name', 'designation', 'message')
+    list_filter = ('is_active', 'rating')
+    ordering = ('-created_at',)
+
+@admin.register(CustomerSupport)
+class CustomerSupportAdmin(admin.ModelAdmin):
+    list_display = ['phone_number', 'email', 'chat_status', 'opening_time', 'closing_time', 'updated_at']
+
+
+admin.site.register(Setting,SettingtAdmin)
+admin.site.register(Showroom,ShowroomAdmin)
 admin.site.register(ContactMessage,ContactMessageAdmin)
 admin.site.register(Offer,OfferAdmin)
 admin.site.register(Slider,SliderAdmin)

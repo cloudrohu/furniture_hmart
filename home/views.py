@@ -15,33 +15,44 @@ from django.urls import reverse
 from django.utils import translation
 
 from home.forms import SearchForm
-from home.models import Setting, ContactForm, ContactMessage,FAQ,Slider,Offer,Banner
+from home.models import Setting, CustomerSupport, ContactForm, ContactMessage,FAQ, Testimonial, Showroom,Slider,Offer,Banner
 from furniture_hmart import settings
-from product.models import Category, Product, Images, Comment, Variants,Brand
+from product.models import Category, TopProductOfWeek, Product, Images, Comment, Variants,Brand,ModularKitchen
 from user.models import UserProfile
 # Create your views here.
 
 
 def index(request):
     setting = Setting.objects.all().order_by('-id')[:1]
+    support_info = CustomerSupport.objects.first()
     category = Category.objects.all()
+    testimonials = Testimonial.objects.filter(is_active=True).order_by('-created_at')[:100]
     offer = Offer.objects.filter(featured_project = 'True').order_by('id')[:2]  #first 4 products
     featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]  #first 4 products
     slider = Slider.objects.filter(featured_project = 'True').order_by('id')[0:6]  #first 4 products
-    banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2]  #first 4 products
+    banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2] 
+    showrooms = Showroom.objects.filter(is_active=True).order_by('order', 'city_name')
     brand = Brand.objects.all().order_by('?')[0:20]  #first 4 products
     products_slider = Product.objects.all().order_by('id')[:4]  #first 4 products
     products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
     featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
-    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:12]  # last 4 products
+    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:8]  # last 4 products
     Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:8]  # last 4 products
-    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:12]  # last 4 products
+    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:8]  # last 4 products
+    best_sellers = Product.objects.filter(best_seller=True, status='True').order_by('-id')[:8]
     products_picked = Product.objects.all().order_by('?')[:8]   #Random selected 4 products
+    top_product = TopProductOfWeek.objects.filter(is_active=True).first()
+    modular_kitchens = ModularKitchen.objects.filter(is_active=True).order_by('order', 'title')[0:6]
     page="home"
     context={
+        'support_info': support_info,
+        'testimonials': testimonials,
+        'top_product': top_product,
+        'showrooms': showrooms,
         'brand':brand,
         'banner':banner,
         'offer':offer,
+        'modular_kitchens': modular_kitchens,
         'slider':slider,
         'setting':setting,
         'category':category,
@@ -54,6 +65,7 @@ def index(request):
         'New_Arrivals':New_Arrivals,
         'Top_Rated':Top_Rated,
         'featured':featured,
+        'best_sellers': best_sellers,
     }
 
     return render(request,'index.html',context)
@@ -232,3 +244,41 @@ def ajaxcolor(request):
 def faq(request):
    
     return render(request, 'faq.html')
+
+
+
+def All_Product(request):
+    setting = Setting.objects.all().order_by('-id')[:1]
+    category = Category.objects.all()
+    offer = Offer.objects.filter(featured_project = 'True').order_by('id')[:2]  #first 4 products
+    featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]  #first 4 products
+    slider = Slider.objects.filter(featured_project = 'True').order_by('id')[0:6]  #first 4 products
+    banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2]  #first 4 products
+    brand = Brand.objects.all().order_by('?')[0:20]  #first 4 products
+    products_slider = Product.objects.all().order_by('id')[:4]  #first 4 products
+    products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
+    featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
+    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:8]  # last 4 products
+    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:8]  # last 4 products
+    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:8]  # last 4 products
+    products_picked = Product.objects.all().order_by('?')[:8]   #Random selected 4 products
+    page="home"
+    context={
+        'brand':brand,
+        'banner':banner,
+        'offer':offer,
+        'slider':slider,
+        'setting':setting,
+        'category':category,
+        'page':page,
+        'products_picked':products_picked,
+        'products_slider':products_slider,
+        'products_latest':products_latest,
+        'featured_project':featured_project,
+        'featured_category':featured_category,
+        'New_Arrivals':New_Arrivals,
+        'Top_Rated':Top_Rated,
+        'featured':featured,
+    }
+
+    return render(request,'all_product.html',context)

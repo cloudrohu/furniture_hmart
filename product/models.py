@@ -114,10 +114,20 @@ class Product(models.Model):
     slug = models.SlugField(null=False, unique=True)
     status=models.CharField(max_length=10,choices=STATUS)
     featured_project = models.BooleanField(default=False)
+    best_seller = models.BooleanField(default=False)
     create_at=models.DateTimeField(auto_now_add=True)
     update_at=models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.title
+    
+    def get_final_price(self):
+        """Return price after applying % discount."""
+        try:
+            if self.discount and self.discount > 0:
+                return int(round(self.price - (self.price * self.discount / 100)))
+        except Exception:
+            pass
+        return self.price
 
 
     ## method to create a fake table field in read only mode
@@ -227,4 +237,54 @@ class Variants(models.Model):
              return mark_safe('<img src="{}" height="50"/>'.format(img.image.url))
         else:
             return ""
+
+class Showroom(models.Model):
+    city_name = models.CharField(max_length=100)
+    store_count = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='showrooms/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order (lower number = first)")
+
+    class Meta:
+        ordering = ['order', 'city_name']
+
+
+class ModularKitchen(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='modular_kitchen/')
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order (lower number = first)")
+
+    class Meta:
+        ordering = ['order', 'title']
+        verbose_name = "Modular Kitchen"
+        verbose_name_plural = "Modular Kitchens"
+
+    def __str__(self):
+        return self.title
+    
+
+
+class TopProductOfWeek(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='top_products/')
+    description = models.TextField()
+    original_price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_percent = models.PositiveIntegerField(default=0)
+    feature_1 = models.CharField(max_length=255, blank=True, null=True)
+    feature_2 = models.CharField(max_length=255, blank=True, null=True)
+    feature_3 = models.CharField(max_length=255, blank=True, null=True)
+    feature_4 = models.CharField(max_length=255, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def discounted_price(self):
+        if self.discount_percent > 0:
+            return round(self.original_price - (self.original_price * self.discount_percent / 100))
+        return round(self.original_price)
+    
+
 

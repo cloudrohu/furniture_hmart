@@ -150,21 +150,22 @@
                
 
                 <!-- Support Center -->
-                <div class=" flex flex-col items-center cursor-pointer">
-                  <i class="fa-solid fa-phone-office"></i>
-                  <a href="support_center.html">
-                    <img src="{% static '' %}assets/images/icons/call-chat-svgrepo-com.svg" class="h-8 h-6" alt="Support Center">
-                    </a>
-                    <span>Support Center</span>
-                </div>
+                  <a href="tel:{{rs.phone}}">
+                    <div class=" flex flex-col items-center cursor-pointer">
+                      <i class="fa-solid fa-phone-office"></i>
+                        <img src="{% static '' %}assets/images/icons/call-chat-svgrepo-com.svg" class="h-8 h-6" alt="Support Center">
+                        <span>Support Center</span>
+                    </div>
+                  </a>
+
 
                      <!-- Contact -->
-                <div class=" flex flex-col items-center cursor-pointer">
-                  <a href="contact.html">
-                    <img src="{% static '' %}assets/images/icons/contact-women-talking-svgrepo-com.svg" class="h-8 h-6" alt="Support Center">
+                  <a href="{% url "contactus" %}">
+                      <div class=" flex flex-col items-center cursor-pointer">
+                          <img src="{% static '' %}assets/images/icons/contact-women-talking-svgrepo-com.svg" class="h-8 h-6" alt="Support Center">
+                          <span>Contact</span>
+                      </div>
                    </a> 
-                    <span>Contact</span>
-                </div>
 
                 <!-- Search Icon -->
                 <button id="openSearch" class="flex flex-col items-center cursor-pointer">
@@ -263,185 +264,184 @@
 
               </div>
              </div>
-  </header>
+      </header>
 
 
   <!-- Overlay -->
-  <!-- Main Category Menu (left) -->
-  <aside id="menu" class="fixed inset-y-0 left-0 w-85 bg-white z-50 transform -translate-x-full transition-transform duration-300 shadow-xl">
-    <div class="flex items-center justify-between p-4 border-b">
-      <h3 class="text-lg font-semibold">Categories</h3>
-        <img src="{{rs.logo.url}}" alt="woodflix" class="h-9 rounded-lg">
+      <!-- Main Category Menu (left) -->
+      <aside id="menu" class="fixed inset-y-0 left-0 lg:w-50 w-[350px] bg-white z-50 transform -translate-x-full transition-transform duration-300 shadow-xl">
+        <div class="flex items-center justify-between p-4 border-b">
+            <img src="{{rs.logo.url}}" alt="woodflix" class="h-20 w-32 rounded-lg">
 
-      <button id="closeMenu" type="button" class="p-1 rounded hover:bg-gray-100">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 8.586 6.293 4.879 4.879 6.293 8.586 10l-3.707 3.707 1.414 1.414L10 11.414l3.707 3.707 1.414-1.414L11.414 10l3.707-3.707-1.414-1.414L10 8.586z" clip-rule="evenodd"/>
-        </svg>
-      </button>
-    </div>
+          <button id="closeMenu" type="button" class="p-1 rounded hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 8.586 6.293 4.879 4.879 6.293 8.586 10l-3.707 3.707 1.414 1.414L10 11.414l3.707 3.707 1.414-1.414L11.414 10l3.707-3.707-1.414-1.414L10 8.586z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
 
-    <div class="p-4 relative overflow-hidden">
-      <input class="w-full border rounded px-3 py-2 mb-4" placeholder="Search products...">
-        <div class="max-h-64 overflow-hidden transition-all duration-300" id="categoryList">
+        <div class="p-4 relative overflow-hidden">
+          <input class="w-full border rounded px-3 py-2 mb-4" placeholder="Search products...">
+            <div class="max-h-64 overflow-hidden transition-all duration-300" id="categoryList">
 
-            <div id="categoryList">
-            <nav class="space-y-3">
-              <button class="catBtn w-full text-left py-2 border-b" data-target="living">Living</button>
-              <button class="catBtn w-full text-left py-2 border-b" data-target="bedroom">Bedroom</button>
-              <button class="catBtn w-full text-left py-2 border-b" data-target="dining">Dining Sets</button>
-              <button class="catBtn w-full text-left py-2 border-b" data-target="office">Office Furniture</button>
-              <button class="catBtn w-full text-left py-2 border-b" data-target="collections">Collections</button>
+                <div id="categoryList">
+                <nav class="space-y-3">
+                  <button class="catBtn w-full text-left py-2 border-b" data-target="living">Living</button>
+                  <button class="catBtn w-full text-left py-2 border-b" data-target="bedroom">Bedroom</button>
+                  <button class="catBtn w-full text-left py-2 border-b" data-target="dining">Dining Sets</button>
+                  <button class="catBtn w-full text-left py-2 border-b" data-target="office">Office Furniture</button>
+                  <button class="catBtn w-full text-left py-2 border-b" data-target="collections">Collections</button>
 
-              <!-- Hidden categories -->
-              <div id="extraCategories" class="hidden">
-                <button class="catBtn w-full text-left py-2 border-b" data-target="outdoor">Outdoor</button>
-                <button class="catBtn w-full text-left py-2 border-b" data-target="kitchen">Kitchen</button>
-                <button class="catBtn w-full text-left py-2 border-b" data-target="decor">Decor</button>
-                <button class="catBtn w-full text-left py-2 border-b" data-target="lighting">Lighting</button>
+                  <!-- Hidden categories -->
+                  <div id="extraCategories" class="hidden">
+                    <button class="catBtn w-full text-left py-2 border-b" data-target="outdoor">Outdoor</button>
+                    <button class="catBtn w-full text-left py-2 border-b" data-target="kitchen">Kitchen</button>
+                    <button class="catBtn w-full text-left py-2 border-b" data-target="decor">Decor</button>
+                    <button class="catBtn w-full text-left py-2 border-b" data-target="lighting">Lighting</button>
+                  </div>
+                </nav>
               </div>
-            </nav>
-          </div>
 
-          <!-- Load More button -->
-          <button id="loadMoreBtn" class="mt-3 text-teal-600 hover:underline">Load more...</button>
+              <!-- Load More button -->
+              <button id="loadMoreBtn" class="mt-3 text-teal-600 hover:underline">Load more...</button>
 
-      <!-- Subcategory Shell INSIDE the menu (no gap) -->
-      <section id="submenuShell" class="absolute top-0 right-0 h-full w-80 bg-white transform translate-x-full transition-transform duration-300 shadow-xl overflow-y-auto">
-        <!-- LIVING -->
-        <div id="panel-living" class="hidden">
-          <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
-            <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <h4 class="text-lg font-semibold">Living</h4>
-          </div>
+          <!-- Subcategory Shell INSIDE the menu (no gap) -->
+          <section id="submenuShell" class="absolute top-0 right-0 h-full w-80 bg-white transform translate-x-full transition-transform duration-300 shadow-xl overflow-y-auto">
+            <!-- LIVING -->
+            <div id="panel-living" class="hidden">
+              <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
+                <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                  Back
+                </button>
+                <h4 class="text-lg font-semibold">Living</h4>
+              </div>
 
-          <div class="p-4 space-y-6">
-            <div>
-              <h5 class="font-semibold mb-2">Sofas</h5>
-              <ul class="grid grid-cols-2 gap-3 text-sm">
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">2-Seater</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">3-Seater</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Recliner</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Sofa cum Bed</a></li>
-              </ul>
+              <div class="p-4 space-y-6">
+                <div>
+                  <h5 class="font-semibold mb-2">Sofas</h5>
+                  <ul class="grid grid-cols-2 gap-3 text-sm">
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">2-Seater</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">3-Seater</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Recliner</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Sofa cum Bed</a></li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h5 class="font-semibold mb-2">Chairs</h5>
+                  <ul class="grid grid-cols-2 gap-3 text-sm">
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Armchair</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Rocking Chair</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h5 class="font-semibold mb-2">Chairs</h5>
-              <ul class="grid grid-cols-2 gap-3 text-sm">
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Armchair</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Rocking Chair</a></li>
-              </ul>
+            <!-- BEDROOM -->
+            <div id="panel-bedroom" class="hidden">
+              <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
+                <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                  Back
+                </button>
+                <h4 class="text-lg font-semibold">Bedroom</h4>
+              </div>
+
+              <div class="p-4 space-y-6">
+                <div>
+                  <h5 class="font-semibold mb-2">Beds</h5>
+                  <ul class="grid grid-cols-2 gap-3 text-sm">
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">King Size</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Queen Size</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Single Bed</a></li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h5 class="font-semibold mb-2">Wardrobes</h5>
+                  <ul class="grid grid-cols-2 gap-3 text-sm">
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">2-Door</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">3-Door</a></li>
+                    <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Sliding Door</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- BEDROOM -->
-        <div id="panel-bedroom" class="hidden">
-          <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
-            <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <h4 class="text-lg font-semibold">Bedroom</h4>
-          </div>
+            <!-- DINING -->
+            <div id="panel-dining" class="hidden">
+              <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
+                <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                  Back
+                </button>
+                <h4 class="text-lg font-semibold">Dining Sets</h4>
+              </div>
 
-          <div class="p-4 space-y-6">
-            <div>
-              <h5 class="font-semibold mb-2">Beds</h5>
-              <ul class="grid grid-cols-2 gap-3 text-sm">
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">King Size</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Queen Size</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Single Bed</a></li>
-              </ul>
+              <div class="p-4 space-y-6">
+                <ul class="grid grid-cols-2 gap-3 text-sm">
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">4-Seater</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">6-Seater</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">8-Seater</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Dining Tables</a></li>
+                </ul>
+              </div>
             </div>
 
-            <div>
-              <h5 class="font-semibold mb-2">Wardrobes</h5>
-              <ul class="grid grid-cols-2 gap-3 text-sm">
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">2-Door</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">3-Door</a></li>
-                <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Sliding Door</a></li>
-              </ul>
+            <!-- OFFICE -->
+            <div id="panel-office" class="hidden">
+              <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
+                <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                  Back
+                </button>
+                <h4 class="text-lg font-semibold">Office Furniture</h4>
+              </div>
+
+              <div class="p-4 space-y-6">
+                <ul class="grid grid-cols-2 gap-3 text-sm">
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Office Chairs</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Desks</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Conference Tables</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Filing Cabinets</a></li>
+                </ul>
+              </div>
             </div>
-          </div>
+
+            <!-- COLLECTIONS -->
+            <div id="panel-collections" class="hidden">
+              <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
+                <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                  Back
+                </button>
+                <h4 class="text-lg font-semibold">Collections</h4>
+              </div>
+
+              <div class="p-4 space-y-6">
+                <ul class="grid grid-cols-2 gap-3 text-sm">
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Premium</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Budget</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">New Arrivals</a></li>
+                  <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Best Sellers</a></li>
+                </ul>
+              </div>
+            </div>
+          </section>
         </div>
-
-        <!-- DINING -->
-        <div id="panel-dining" class="hidden">
-          <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
-            <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <h4 class="text-lg font-semibold">Dining Sets</h4>
-          </div>
-
-          <div class="p-4 space-y-6">
-            <ul class="grid grid-cols-2 gap-3 text-sm">
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">4-Seater</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">6-Seater</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">8-Seater</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Dining Tables</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- OFFICE -->
-        <div id="panel-office" class="hidden">
-          <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
-            <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <h4 class="text-lg font-semibold">Office Furniture</h4>
-          </div>
-
-          <div class="p-4 space-y-6">
-            <ul class="grid grid-cols-2 gap-3 text-sm">
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Office Chairs</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Desks</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Conference Tables</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Filing Cabinets</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- COLLECTIONS -->
-        <div id="panel-collections" class="hidden">
-          <div class="sticky top-0 bg-white p-4 border-b flex items-center gap-3">
-            <button class="backBtn text-teal-700 flex items-center gap-1" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <h4 class="text-lg font-semibold">Collections</h4>
-          </div>
-
-          <div class="p-4 space-y-6">
-            <ul class="grid grid-cols-2 gap-3 text-sm">
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Premium</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Budget</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">New Arrivals</a></li>
-              <li><a href="#" class="block rounded border p-2 hover:bg-gray-50">Best Sellers</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </div>
-  </aside>
-  <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+      </aside>
+      <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
 
 
   <!-- PINCODE MODAL -->

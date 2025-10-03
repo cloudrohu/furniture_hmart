@@ -5,7 +5,7 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
 from product import models
-from product.models import Category, Product, Images, Comment, Color, Size, Variants,Brand
+from product.models import Category, ModularKitchen, TopProductOfWeek, Product, Images, Comment, Color, Size, Variants,Brand
 
 
 
@@ -98,7 +98,23 @@ class CategoryLangugaeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['lang']
 
+class ModularKitchenAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_active', 'order')
+    list_editable = ('is_active', 'order')
+    search_fields = ('title',)
+    list_filter = ('is_active',)
+    ordering = ('order',)
+
+@admin.register(TopProductOfWeek)
+class TopProductOfWeekAdmin(admin.ModelAdmin):
+    list_display = ('title', 'original_price', 'discount_percent', 'discounted_price', 'is_active')
+    readonly_fields = ('discounted_price',)
+
+
+
+
 admin.site.register(Category,CategoryAdmin2)
+admin.site.register(ModularKitchen,ModularKitchenAdmin)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Comment,CommentAdmin)
 admin.site.register(Images,ImagesAdmin)

@@ -34,6 +34,7 @@ class Setting(models.Model):
     instagram = models.CharField(blank=True,max_length=50)
     twitter = models.CharField(blank=True,max_length=50)
     youtube = models.CharField(blank=True, max_length=50)
+    copy_right = models.CharField(blank=True, max_length=50)
     pinterest = models.CharField(blank=True, max_length=50)
     aboutus = RichTextUploadingField(blank=True)
     contact = RichTextUploadingField(blank=True)
@@ -145,3 +146,50 @@ class Banner(models.Model):
     def __str__(self):
         return self.title
 
+class Showroom(models.Model):
+    city_name = models.CharField(max_length=100)
+    store_count = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='showrooms/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order (lower number = first)")
+
+    class Meta:
+        ordering = ['order', 'city_name']
+
+
+
+class Testimonial(models.Model):
+    RATING_CHOICES = [
+        (1, '★☆☆☆☆ (1)'),
+        (2, '★★☆☆☆ (2)'),
+        (3, '★★★☆☆ (3)'),
+        (4, '★★★★☆ (4)'),
+        (5, '★★★★★ (5)'),
+    ]
+
+    name = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField(upload_to='testimonials/', blank=True, null=True)
+    message = models.TextField()
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES, default=5)  # ⭐ New Field
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.rating}⭐)"    
+
+
+class CustomerSupport(models.Model):
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    chat_status = models.BooleanField(default=True)  # ✅ True = Online, False = Offline
+    opening_time = models.CharField(max_length=20, default="10:30 AM")
+    closing_time = models.CharField(max_length=20, default="10:30 PM")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Customer Support"
+        verbose_name_plural = "Customer Support"
+
+    def __str__(self):
+        return f"Support Info ({self.phone_number})"
