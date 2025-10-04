@@ -5,160 +5,366 @@
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+  <!-- Tailwind & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 
+  <style>
+    .card:hover img { transform: scale(1.07); }
+    .card img { transition: transform .4s ease; }
+    .dot { width:.9rem; height:.9rem; border-radius:9999px; border:1px solid rgba(0,0,0,.15); }
+    .accordion-content { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+    .accordion.open .accordion-content { max-height:320px; }
+    .shadow-soft{box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    @keyframes fadeIn { from {opacity:.0; transform:scale(.98);} to {opacity:1; transform:scale(1);} }
+    .thumb-mini.active { outline: 2px solid #f59e0b; outline-offset: 0; }
+  </style>
 {% block body %}
 
-	<!-- BREADCRUMB -->
-	<div id="breadcrumb">
-		<div class="container">
-			<ul class="breadcrumb">
-				<li><a href="/">Home</a></li>
-				<li class="active">{{ query }} results</li>
-			</ul>
+<!-- Wrapper -->
+<main class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-12 gap-8">
+
+<!-- =============== Sidebar Filters =============== -->
+<aside class="col-span-12 lg:col-span-3 space-y-5">
+	<div class="rounded-xl border bg-white p-5 shadow-soft space-y-5">
+	<h3 class="font-semibold text-lg flex items-center gap-2">
+		<i class="fa-solid fa-sliders"></i> Filters
+	</h3>
+
+	<!-- Category -->
+	<div class="accordion border-b pb-2">
+		<button class="w-full flex justify-between items-center font-semibold py-2">
+		<span><i class="fa-solid fa-couch text-amber-600 mr-2"></i> Category</span>
+		<i class="fa-solid fa-chevron-down text-xs"></i>
+		</button>
+		<div class="accordion-content mt-2 space-y-2 text-sm">
+		<label class="flex items-center gap-2"><input type="checkbox"> Sofas</label>
+		<label class="flex items-center gap-2"><input type="checkbox"> Beds</label>
+		<label class="flex items-center gap-2"><input type="checkbox"> Chairs</label>
+		<label class="flex items-center gap-2"><input type="checkbox"> Dining Sets</label>
+		<label class="flex items-center gap-2"><input type="checkbox"> Wardrobes</label>
 		</div>
 	</div>
-	<!-- /BREADCRUMB -->
-	<!-- section -->
-	<div class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
 
-				<!-- MAIN -->
-				<div id="main" class="col-md-12">
-					<!-- store top filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store top filter -->
-
-					<!-- STORE -->
-					<div id="store">
-						<!-- row -->
-						<div class="row">
-
-                            <div class="col-md-12">
-						<div class="order-summary clearfix">
-							<div class="section-title">
-								<h3 class="title">Product List</h3>
-							</div>
-							<table class="shopping-cart-table table">
-								<thead>
-									<tr>
-										<th>Product</th>
-										<th>Product</th>
-                                        <th>Category</th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-
-										<th class="text-right"></th>
-									</tr>
-								</thead>
-								<tbody>
-
-                                {% for rs in products %}
-									<tr>
-										<td class="thumb"><a href="/product/{{ rs.id }}/{{ rs.slug }}">
-                                            <img src="{{ rs.image.url }}" alt="" style="height: 100px">
-                                        </a></td>
-
-										<td class="details"> <a href="/product/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a>	</td>
-                                        <td class="details"> <a href="/category/{{ rs.category_id }}/{{ rs.category.slug }}">{{ rs.category }}</a>	</td>
-										<td class="price text-center"><strong></strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-
-										<td class="text-right"><a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a></td>
-									</tr>
-                                    {% endfor %}
-
-								</tbody>
-
-							</table>
-
-						</div>
-
-					</div>
-
-						</div>
-						<!-- /row -->
-					</div>
-					<!-- /STORE -->
-
-					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store bottom filter -->
-				</div>
-				<!-- /MAIN -->
-			</div>
-			<!-- /row -->
+	<!-- Color -->
+	<div class="accordion border-b pb-2">
+		<button class="w-full flex justify-between items-center font-semibold py-2">
+		<span><i class="fa-solid fa-palette text-amber-600 mr-2"></i> Color</span>
+		<i class="fa-solid fa-chevron-down text-xs"></i>
+		</button>
+		<div class="accordion-content mt-3 flex flex-wrap gap-2">
+		<span class="dot bg-black cursor-pointer" title="Black"></span>
+		<span class="dot bg-white cursor-pointer" title="White"></span>
+		<span class="dot bg-rose-500 cursor-pointer" title="Rose"></span>
+		<span class="dot bg-amber-600 cursor-pointer" title="Amber"></span>
+		<span class="dot bg-sky-500 cursor-pointer" title="Sky"></span>
+		<span class="dot bg-emerald-600 cursor-pointer" title="Green"></span>
 		</div>
-		<!-- /container -->
 	</div>
-	<!-- /section -->
+
+	<!-- Price -->
+	<div class="accordion">
+		<button class="w-full flex justify-between items-center font-semibold py-2">
+		<span><i class="fa-solid fa-indian-rupee-sign text-amber-600 mr-2"></i> Price</span>
+		<i class="fa-solid fa-chevron-down text-xs"></i>
+		</button>
+		<div class="accordion-content mt-3">
+		<input id="priceRange" type="range" min="999" max="99999" value="24999" class="w-full accent-amber-600">
+		<div class="text-xs mt-1 text-gray-500">Up to
+			<span id="priceValue" class="font-medium text-gray-800">₹24,999</span>
+		</div>
+		</div>
+	</div>
+
+	<button id="clearFilters" class="w-full mt-2 border rounded-lg py-2 hover:bg-gray-50 font-medium">
+		Clear All
+	</button>
+	</div>
+</aside>
+
+<!-- =============== Product Grid =============== -->
+<section class="col-span-12 lg:col-span-9">
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+	<!-- -------- Card 1 -------- -->
+	<article
+		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
+		data-title="Luxury Wooden Sofa"
+		data-price="₹24,999"
+		data-mrp="₹39,999"
+		data-img="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000"
+		data-brand="Cloud Furniture"
+		data-category="Living Room"
+		data-availability="In Stock"
+		data-desc="Crafted with premium Sheesham wood, this sofa set brings elegance and comfort to your home."
+		data-thumbs='[
+		"https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000",
+		"https://images.unsplash.com/photo-1582582428980-1e4c32469a2d?q=80&w=1000",
+		"https://images.unsplash.com/photo-1598300053967-62e9e65cfb1a?q=80&w=1000"
+		]'>
+		<div class="absolute left-3 top-3 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded">NEW</div>
+		<div class="relative overflow-hidden">
+		<img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000" class="w-full h-56 object-cover">
+		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
+			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">
+			Quick View
+			</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
+		</div>
+		</div>
+		<div class="p-4">
+		<h3 class="font-semibold truncate">Luxury Wooden Sofa</h3>
+		<div class="mt-1 text-xs text-yellow-600">★★★★☆ <span class="text-gray-400">(214)</span></div>
+		<div class="mt-2 flex items-center gap-2 text-sm">
+			<div class="font-bold text-amber-700">₹24,999</div>
+			<div class="line-through text-gray-400">₹39,999</div>
+			<span class="text-amber-600 text-xs font-semibold">(35% off)</span>
+		</div>
+		</div>
+	</article>
+
+	<!-- -------- Card 2 -------- -->
+	<article
+		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
+		data-title="Elegant Dining Table"
+		data-price="₹19,499"
+		data-mrp="₹25,999"
+		data-img="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000"
+		data-brand="TimberCraft"
+		data-category="Dining"
+		data-availability="Limited Stock"
+		data-desc="Premium 6-seater dining table with a sturdy build and satin finish."
+		data-thumbs='[
+		"https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000",
+		"https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?q=80&w=1000"
+		]'>
+		<div class="absolute left-3 top-3 text-[10px] bg-rose-600 text-white px-2 py-0.5 rounded">SALE</div>
+		<div class="relative overflow-hidden">
+		<img src="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000" class="w-full h-56 object-cover">
+		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
+			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">Quick View</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
+		</div>
+		</div>
+		<div class="p-4">
+		<h3 class="font-semibold truncate">Elegant Dining Table</h3>
+		<div class="mt-1 text-xs text-yellow-600">★★★★★ <span class="text-gray-400">(98)</span></div>
+		<div class="mt-2 flex items-center gap-2 text-sm">
+			<div class="font-bold text-amber-700">₹19,499</div>
+			<div class="line-through text-gray-400">₹25,999</div>
+			<span class="text-amber-600 text-xs font-semibold">(25% off)</span>
+		</div>
+		</div>
+	</article>
+
+	<!-- -------- Card 3 -------- -->
+	<article
+		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
+		data-title="Premium King Size Bed"
+		data-price="₹29,999"
+		data-mrp="₹41,999"
+		data-img="https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000"
+		data-brand="SleepWell"
+		data-category="Bedroom"
+		data-availability="Pre Order"
+		data-desc="Spacious king size bed with ergonomic headboard and solid wood frame."
+		data-thumbs='[
+		"https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000",
+		"https://images.unsplash.com/photo-1505693196193-1d5d3f48f3f8?q=80&w=1000",
+		"https://images.unsplash.com/photo-1505693314120-7f6a1bca8b00?q=80&w=1000"
+		]'>
+		<div class="relative overflow-hidden">
+		<img src="https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000" class="w-full h-56 object-cover">
+		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
+			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">Quick View</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
+			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
+		</div>
+		</div>
+		<div class="p-4">
+		<h3 class="font-semibold truncate">Premium King Size Bed</h3>
+		<div class="mt-1 text-xs text-yellow-600">★★★★☆ <span class="text-gray-400">(312)</span></div>
+		<div class="mt-2 flex items-center gap-2 text-sm">
+			<div class="font-bold text-amber-700">₹29,999</div>
+			<div class="line-through text-gray-400">₹41,999</div>
+			<span class="text-amber-600 text-xs font-semibold">(28% off)</span>
+		</div>
+		</div>
+	</article>
+
+	</div>
+</section>
+</main>
+
+<!-- =============== Quick View Modal =============== -->
+<div id="quickViewModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 px-3">
+<div class="bg-white w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden" style="animation: fadeIn .25s ease">
+	<!-- Header -->
+	<div class="flex justify-between items-center px-6 py-4 border-b">
+	<h3 class="text-lg font-semibold">Quick View</h3>
+	<button id="closeModal" class="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+	</div>
+
+	<!-- Body -->
+	<div class="grid md:grid-cols-2 gap-6 p-6">
+	<!-- Left: Image + Thumbs -->
+	<div>
+		<div class="relative overflow-hidden rounded-lg">
+		<img id="modalImg" src="" alt="Product Preview" class="w-full h-64 object-cover rounded-lg shadow-sm">
+		</div>
+		<div id="thumbStrip" class="flex gap-2 overflow-x-auto mt-3"></div>
+	</div>
+
+	<!-- Right: Content -->
+	<div>
+		<h4 id="modalProductTitle" class="text-2xl font-bold mb-1">Product Title</h4>
+
+		<div class="text-xs text-yellow-500 mb-2">★★★★☆ <span class="text-gray-400">(200+)</span></div>
+
+		<!-- Prices -->
+		<div class="flex items-center gap-2 mb-3">
+		<div id="modalPrice" class="text-2xl font-bold text-amber-700">₹—</div>
+		<div id="modalMrp" class="line-through text-gray-400">₹—</div>
+		</div>
+
+		<!-- Meta -->
+		<div class="space-y-1 text-sm text-gray-700 mb-4">
+		<p><strong>Brand:</strong> <span id="modalBrand" class="text-gray-800">—</span></p>
+		<p><strong>Category:</strong> <span id="modalCategory" class="text-gray-800">—</span></p>
+		<p>
+			<strong>Availability:</strong>
+			<span id="modalAvailability" class="font-semibold">—</span>
+		</p>
+		</div>
+
+		<!-- Color Dots (visual only) -->
+		<div class="mb-3">
+		<p class="text-sm font-medium text-gray-800 mb-1">Colors</p>
+		<div class="flex gap-2">
+			<span class="dot bg-black"></span>
+			<span class="dot bg-amber-600"></span>
+			<span class="dot bg-rose-500"></span>
+			<span class="dot bg-sky-500"></span>
+		</div>
+		</div>
+
+		<!-- Size (visual only) -->
+		<div class="mb-4">
+		<label class="text-sm font-medium text-gray-800 mb-1 block">Size</label>
+		<select class="border rounded px-3 py-2 w-full text-sm">
+			<option>Small</option>
+			<option>Medium</option>
+			<option>Large</option>
+		</select>
+		</div>
+
+		<!-- Description -->
+		<p id="modalDescription" class="text-sm text-gray-600 mb-5">
+		—
+		</p>
+
+		<div class="flex gap-3">
+		<button class="flex-1 bg-amber-600 text-white py-2 rounded hover:bg-amber-700 transition">
+			<i class="fa-solid fa-cart-shopping mr-1"></i> Add to Cart
+		</button>
+		<button class="flex-1 border py-2 rounded hover:bg-gray-50 transition">
+			<i class="fa-solid fa-eye mr-1"></i> View Details
+		</button>
+		</div>
+	</div>
+	</div>
+</div>
+</div>
+
+  <!-- =============== JS =============== -->
+	<script>
+		// Accordion open/close
+		document.querySelectorAll('.accordion button').forEach(btn=>{
+		btn.addEventListener('click', ()=> btn.parentElement.classList.toggle('open'));
+		});
+
+		// Price range live text
+		const priceRange = document.getElementById('priceRange');
+		const priceValue = document.getElementById('priceValue');
+		priceRange.addEventListener('input', ()=> {
+		priceValue.textContent = `₹${Number(priceRange.value).toLocaleString()}`;
+		});
+
+		// Clear filters (UI only)
+		document.getElementById('clearFilters').addEventListener('click', ()=>{
+		document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
+		priceRange.value = 24999; priceValue.textContent = '₹24,999';
+		});
+
+		// Quick View
+		const modal = document.getElementById('quickViewModal');
+		const closeModal = document.getElementById('closeModal');
+		const modalImg = document.getElementById('modalImg');
+		const modalTitle = document.getElementById('modalProductTitle');
+		const modalPrice = document.getElementById('modalPrice');
+		const modalMrp = document.getElementById('modalMrp');
+		const modalBrand = document.getElementById('modalBrand');
+		const modalCategory = document.getElementById('modalCategory');
+		const modalAvail = document.getElementById('modalAvailability');
+		const modalDesc = document.getElementById('modalDescription');
+		const thumbStrip = document.getElementById('thumbStrip');
+
+		// Open modal with data from the card
+		document.querySelectorAll('.quick-view-btn').forEach(btn=>{
+		btn.addEventListener('click', ()=>{
+			const card = btn.closest('.card');
+			modalTitle.textContent = card.dataset.title || '—';
+			modalPrice.textContent = card.dataset.price || '₹—';
+			modalMrp.textContent = card.dataset.mrp || '₹—';
+			modalBrand.textContent = card.dataset.brand || '—';
+			modalCategory.textContent = card.dataset.category || '—';
+			modalAvail.textContent = card.dataset.availability || '—';
+			modalDesc.textContent = card.dataset.desc || '—';
+
+			// Availability color
+			modalAvail.classList.remove('text-green-600','text-red-600','text-amber-600','text-blue-600');
+			const av = (card.dataset.availability || '').toLowerCase();
+			if (av.includes('in stock')) modalAvail.classList.add('text-green-600');
+			else if (av.includes('out')) modalAvail.classList.add('text-red-600');
+			else if (av.includes('limited')) modalAvail.classList.add('text-amber-600');
+			else if (av.includes('pre')) modalAvail.classList.add('text-blue-600');
+
+			// Main image
+			modalImg.src = card.dataset.img || '';
+
+			// Thumbs
+			thumbStrip.innerHTML = '';
+			let thumbs = [];
+			try { thumbs = JSON.parse(card.dataset.thumbs || '[]'); } catch(e){}
+			if (!thumbs.length && card.dataset.img) thumbs = [card.dataset.img];
+
+			thumbs.forEach((src, idx)=>{
+			const t = document.createElement('img');
+			t.src = src;
+			t.className = 'thumb-mini w-16 h-16 object-cover rounded cursor-pointer border hover:border-amber-500';
+			if (idx===0) t.classList.add('active');
+			t.addEventListener('click', ()=>{
+				modalImg.src = src;
+				document.querySelectorAll('#thumbStrip .thumb-mini').forEach(el=>el.classList.remove('active'));
+				t.classList.add('active');
+			});
+			thumbStrip.appendChild(t);
+			});
+
+			modal.classList.remove('hidden');
+			modal.classList.add('flex');
+		});
+		});
+
+		// Close modal
+		closeModal.addEventListener('click', ()=>{
+		modal.classList.add('hidden'); modal.classList.remove('flex');
+		});
+		modal.addEventListener('click', (e)=>{
+		if (e.target === modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+		});
+	</script>
 
 {% endblock %}

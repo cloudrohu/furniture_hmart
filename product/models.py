@@ -89,6 +89,13 @@ class Product(models.Model):
         ('Featured', 'Featured'),
     )
 
+    AVAILABILITY_CHOICES = (
+        ('In Stock', 'In Stock'),
+        ('Out of Stock', 'Out of Stock'),
+        ('Limited Stock', 'Limited Stock'),
+        ('Pre Order', 'Pre Order'),
+    )
+
     STATUS = (
         ('True', 'True'),
         ('False', 'False'),
@@ -110,6 +117,7 @@ class Product(models.Model):
     price=models.IntegerField(default=0)
     discount=models.IntegerField(default=0)
     variant=models.CharField(max_length=10,choices=VARIANTS, default='None')
+    availability=models.CharField(max_length=50,choices=AVAILABILITY_CHOICES, default='In Stock')
     detail=RichTextUploadingField()
     slug = models.SlugField(null=False, unique=True)
     status=models.CharField(max_length=10,choices=STATUS)
@@ -158,6 +166,16 @@ class Product(models.Model):
         if reviews["count"] is not None:
             cnt = int(reviews["count"])
         return cnt
+
+class Specification(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    key = models.CharField(max_length=100)
+    value = models.CharField(max_length=255)
+
+
+    def __str__(self):
+        return self.key
+
 
 
 class Images(models.Model):

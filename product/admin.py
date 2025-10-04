@@ -5,8 +5,7 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
 from product import models
-from product.models import Category, ModularKitchen, TopProductOfWeek, Product, Images, Comment, Color, Size, Variants,Brand
-
+from product.models import Category, ModularKitchen, Specification, TopProductOfWeek, Product, Images, Comment, Color, Size, Variants,Brand
 
 
 @admin_thumbnails.thumbnail('image')
@@ -22,6 +21,11 @@ class ProductVariantsInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+class SpecificationInline(admin.TabularInline):  # 👈 Yeh Important Hai
+    model = Specification
+    fields = ('key', 'value')     # clean 2-column view
+    extra = 1
+    show_change_link = True 
     
 @admin_thumbnails.thumbnail('image')
 class CategoryAdmin2(DraggableMPTTAdmin):
@@ -68,7 +72,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title','category','price','discount','featured_project','brand','status','image_tag','slug']
     list_filter = ['category']
     readonly_fields = ('image_tag',)
-    inlines = [ProductImageInline,ProductVariantsInline]
+    inlines = [ProductImageInline,ProductVariantsInline, SpecificationInline]
     prepopulated_fields = {'slug': ('title',)}
 
 
@@ -111,7 +115,10 @@ class TopProductOfWeekAdmin(admin.ModelAdmin):
     readonly_fields = ('discounted_price',)
 
 
+class SpecificationAdmin(admin.ModelAdmin):
+    list_display = ('product', 'key', 'value')
 
+admin.site.register(Specification, SpecificationAdmin)
 
 admin.site.register(Category,CategoryAdmin2)
 admin.site.register(ModularKitchen,ModularKitchenAdmin)

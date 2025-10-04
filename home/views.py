@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models import Avg, Count, Q, F
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -17,7 +17,7 @@ from django.utils import translation
 from home.forms import SearchForm
 from home.models import Setting, CustomerSupport, ContactForm, ContactMessage,FAQ, Testimonial, Showroom,Slider,Offer,Banner
 from furniture_hmart import settings
-from product.models import Category, TopProductOfWeek, Product, Images, Comment, Variants,Brand,ModularKitchen
+from product.models import Category, Specification, TopProductOfWeek, Product, Images, Comment, Variants,Brand,ModularKitchen
 from user.models import UserProfile
 # Create your views here.
 
@@ -185,44 +185,71 @@ def search_auto(request):
     return HttpResponse(data, mimetype)
 
 
-def product_detail(request,id,slug):
+def product_detail(request, id, slug):
+
+    
     setting = Setting.objects.all().order_by('-id')[:1]
 
-    
-    query = request.GET.get('q')
-    # >>>>>>>>>>>>>>>> M U L T I   L A N G U G A E >>>>>> START
-    #defaultlang = settings.LANGUAGE_CODE[0:2] #en-EN
-    #currentlang = request.LANGUAGE_CODE[0:2]
-    #category = categoryTree(0, '', currentlang)
     category = Category.objects.all()
 
-    product = Product.objects.get(pk=id)
+    product = get_object_or_404(Product, pk=id, slug=slug)
 
-    
-    # <<<<<<<<<< M U L T I   L A N G U G A E <<<<<<<<<<<<<<< end
+    specifications = Specification.objects.filter(product=product)
+
 
     images = Images.objects.filter(product_id=id)
-    comments = Comment.objects.filter(product_id=id,status='True')
-    context = {'product': product,'category': category,
-               'images': images, 'comments': comments,'setting': setting,
-               }
-    if product.variant !="None": # Product have variants
-        if request.method == 'POST': #if we select color
+
+    comments = Comment.objects.filter(product_id=id, status='True')
+
+    related_products = Product.objects.filter(category=product.category, status='True').exclude(id=product.id)[:4]
+
+    if product.variant != "None":
+        if request.method == 'POST':
             variant_id = request.POST.get('variantid')
-            variant = Variants.objects.get(id=variant_id) #selected product by click color radio
-            colors = Variants.objects.filter(product_id=id,size_id=variant.size_id )
-            sizes = Variants.objects.raw('SELECT * FROM  product_variants  WHERE product_id=%s GROUP BY size_id',[id])
-            query += variant.title+' Size:' +str(variant.size) +' Color:' +str(variant.color)
+            variant = Variants.objects.get(id=variant_id)
+            colors = Variants.objects.filter(product_id=id, size_id=variant.size_id)
+            sizes = Variants.objects.raw(
+                'SELECT * FROM product_variants WHERE product_id=%s GROUP BY size_id', [id]
+            )
         else:
             variants = Variants.objects.filter(product_id=id)
-            colors = Variants.objects.filter(product_id=id,size_id=variants[0].size_id )
-            sizes = Variants.objects.raw('SELECT * FROM  product_variants  WHERE product_id=%s GROUP BY size_id',[id])
-            variant =Variants.objects.get(id=variants[0].id)
-        context.update({'sizes': sizes, 'colors': colors,
-                        'variant': variant,'query': query
-                        })
-    
-    return render(request,'product_detail.html',context)
+            if variants.exists():
+                variant = variants.first()
+                colors = Variants.objects.filter(product_id=id, size_id=variant.size_id)
+                sizes = Variants.objects.raw(
+                    'SELECT * FROM product_variants WHERE product_id=%s GROUP BY size_id', [id]
+                )
+            else:
+                variant = None
+                colors = []
+                sizes = []
+
+    else:
+        variant = None
+        colors = []
+        sizes = []
+
+    average_rating = product.avaregereview()
+    total_reviews = product.countreview()
+
+    context = {
+        'setting': setting,
+        'category': category,
+        'product': product,
+        'images': images,
+        'comments': comments,
+        'related_products': related_products,
+        'variant': variant,
+        'colors': colors,
+        'specifications': specifications,
+        'sizes': sizes,
+        'average_rating': average_rating,
+        'total_reviews': total_reviews,
+    }
+
+    return render(request, 'product_detail.html', context)
+
+
 
 
 def ajaxcolor(request):
