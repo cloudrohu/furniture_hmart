@@ -1,9 +1,11 @@
 from django.contrib import admin
-
-# Register your models here.
+import admin_thumbnails
 from user.models import UserProfile
 
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user_name','address', 'phone','city','country','image_tag']
 
-admin.site.register(UserProfile,UserProfileAdmin)
+@admin_thumbnails.thumbnail('image')
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user_name', 'image_thumbnail', 'address', 'phone', 'city', 'country']
+    readonly_fields = ()  # ⚡ thumbnail decorator ke liye zaroori
+
+admin.site.register(UserProfile, UserProfileAdmin)
