@@ -36,49 +36,72 @@ class Brand(models.Model):
     def image_tag(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
 
+
+
 class Category(MPTTModel):
+    # Status choices
     STATUS = (
         ('True', 'True'),
         ('False', 'False'),
     )
-    parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
-    title = models.CharField(max_length=250)
+
+    # MPTT TreeForeignKey for self-referencing hierarchy
+    parent = TreeForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE, )   
+    title = models.CharField(max_length=250, unique=True) # Title ko unique kar dena accha practice hai
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
-    image=models.ImageField(blank=True,upload_to='images/')
-    status=models.CharField(max_length=10, choices=STATUS)
+    image = models.ImageField(blank=True, upload_to='images/')
+    status = models.CharField(max_length=10, choices=STATUS, default='True')
     featured_category = models.BooleanField(default=False)
-    slug = models.SlugField(unique=True , null=True , blank=True)
-    create_at=models.DateTimeField(auto_now_add=True)
-    update_at=models.DateTimeField(auto_now=True)
+    
+    # Slug for clean URLs
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.title
-    
-    def save(self , *args , **kwargs):
-        self.slug = slugify(self.title)
-        super(Category ,self).save(*args , **kwargs)
-    
-    
+    # --- Methods ---
+
+    # Method to display image in Django Admin
     def image_tag(self):
-        if self.image.url is not None:
+        if self.image:
             return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
-        else:
-            return ""
-
-    class MPTTMeta:
-        order_insertion_by = ['title']
-
+        return ""
+    image_tag.short_description = 'Image Preview'
+    
+    # Overriding save method to auto-generate the slug
+    def save(self, *args, **kwargs):
+        if not self.slug: # Agar slug pehle se set nahi hai to generate karo
+            self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
+    
+    # Returns the absolute URL for the object
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        # Make sure you have a URL pattern named 'category_detail' defined in your urls.py
+        try:
+            return reverse('category_detail', kwargs={'slug': self.slug})
+        except:
+            return f"/category/{self.slug}" # Fallback if URL name not found
 
-    def __str__(self):                           # __str__ method elaborated later in
-        full_path = [self.title]                  # post.  use __unicode__ in place of
+    # Custom __str__ method to show the full path (e.g., Furniture / Sofas / 2-Seater)
+    def __str__(self): 
+        full_path = [self.title] 
         k = self.parent
         while k is not None:
             full_path.append(k.title)
             k = k.parent
+        # The path is constructed backwards, so reverse it
         return ' / '.join(full_path[::-1])
+
+    # --- MPTT Metadata ---
+    class MPTTMeta:
+        # MPTT uses this to order nodes at the same level
+        order_insertion_by = ['title']
+        
+    # --- Django Metadata ---
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
 
 class Product(models.Model):

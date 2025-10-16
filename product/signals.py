@@ -17,7 +17,7 @@ def get_file_size_mb(path):
 def compress_and_thumbnail(image_path):
     """Compress image to WebP and create thumbnail"""
     if not image_path or not os.path.exists(image_path):
-        return None, None
+        return None, Nonea
 
     img = Image.open(image_path)
     img = img.convert('RGB')
@@ -47,8 +47,10 @@ def process_image_field(instance, field_name):
         webp_path, thumb_path = compress_and_thumbnail(image_field.path)
         if webp_path:
             relative_webp_path = image_field.name.rsplit('.', 1)[0] + '.webp'
+            # Direct database update to avoid recursive save
+            type(instance).objects.filter(pk=instance.pk).update(**{field_name: relative_webp_path})
+            # Update in-memory instance too
             setattr(instance, field_name, relative_webp_path)
-            instance.save(update_fields=[field_name])
 
 # ✅ Brand image
 @receiver(post_save, sender=Brand)

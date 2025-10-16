@@ -42,9 +42,11 @@ class SpecificationInline(admin.TabularInline):
     show_change_link = True
 
 
+
+
 # 🗂 Category Admin with Thumbnails
 @admin_thumbnails.thumbnail('image')
-class CategoryAdmin2(DraggableMPTTAdmin):
+class CategoryAdmin(DraggableMPTTAdmin):
     mptt_indent_field = "title"
     list_display = (
         'id',
@@ -153,7 +155,7 @@ class SpecificationAdmin(admin.ModelAdmin):
 
 # ✅ Register all models
 admin.site.register(Specification, SpecificationAdmin)
-admin.site.register(Category, CategoryAdmin2)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(ModularKitchen, ModularKitchenAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Comment, CommentAdmin)
