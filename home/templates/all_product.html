@@ -5,366 +5,557 @@
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+{% block body %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <!-- Tailwind & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 
-  <style>
-    .card:hover img { transform: scale(1.07); }
-    .card img { transition: transform .4s ease; }
-    .dot { width:.9rem; height:.9rem; border-radius:9999px; border:1px solid rgba(0,0,0,.15); }
-    .accordion-content { max-height:0; overflow:hidden; transition:max-height .3s ease; }
-    .accordion.open .accordion-content { max-height:320px; }
-    .shadow-soft{box-shadow:0 10px 30px rgba(0,0,0,.06)}
-    @keyframes fadeIn { from {opacity:.0; transform:scale(.98);} to {opacity:1; transform:scale(1);} }
-    .thumb-mini.active { outline: 2px solid #f59e0b; outline-offset: 0; }
-  </style>
-{% block body %}
+<style>
+	.category-scroll::-webkit-scrollbar {
+	width: 6px;
+	}
+	.category-scroll::-webkit-scrollbar-thumb {
+	background-color: #d1d5db;
+	border-radius: 4px;
+	}
+	.category-scroll::-webkit-scrollbar-thumb:hover {
+	background-color: #9ca3af;
+	}
 
-<!-- Wrapper -->
-<main class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-12 gap-8">
+	.card:hover img { transform: scale(1.07); }
+	.card img { transition: transform .4s ease; }
+	.dot { width:.9rem; height:.9rem; border-radius:9999px; border:1px solid rgba(0,0,0,.15); }
+	.accordion-content { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+	.accordion.open .accordion-content { max-height:320px; }
+	.shadow-soft{box-shadow:0 10px 30px rgba(0,0,0,.06)}
+	@keyframes fadeIn { from {opacity:.0; transform:scale(.98);} to {opacity:1; transform:scale(1);} }
+	.thumb-mini.active { outline: 2px solid #f59e0b; outline-offset: 0; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
 
-<!-- =============== Sidebar Filters =============== -->
-<aside class="col-span-12 lg:col-span-3 space-y-5">
-	<div class="rounded-xl border bg-white p-5 shadow-soft space-y-5">
-	<h3 class="font-semibold text-lg flex items-center gap-2">
-		<i class="fa-solid fa-sliders"></i> Filters
-	</h3>
+  <!-- Wrapper -->
+  <main class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-12 gap-8">
+        <aside class="col-span-12 lg:col-span-3 space-y-6 fixed lg:static w-full lg:w-auto">
+          <div class="rounded-2xl border bg-white p-6 shadow-md space-y-6">
 
-	<!-- Category -->
-	<div class="accordion border-b pb-2">
-		<button class="w-full flex justify-between items-center font-semibold py-2">
-		<span><i class="fa-solid fa-couch text-amber-600 mr-2"></i> Category</span>
-		<i class="fa-solid fa-chevron-down text-xs"></i>
-		</button>
-		<div class="accordion-content mt-2 space-y-2 text-sm">
-		<label class="flex items-center gap-2"><input type="checkbox"> Sofas</label>
-		<label class="flex items-center gap-2"><input type="checkbox"> Beds</label>
-		<label class="flex items-center gap-2"><input type="checkbox"> Chairs</label>
-		<label class="flex items-center gap-2"><input type="checkbox"> Dining Sets</label>
-		<label class="flex items-center gap-2"><input type="checkbox"> Wardrobes</label>
-		</div>
-	</div>
+            <!-- Header -->
+            <h3 class="font-semibold text-xl flex items-center gap-2 text-gray-800">
+              <i class="fa-solid fa-sliders text-amber-600"></i> Filters
+            </h3>
 
-	<!-- Color -->
-	<div class="accordion border-b pb-2">
-		<button class="w-full flex justify-between items-center font-semibold py-2">
-		<span><i class="fa-solid fa-palette text-amber-600 mr-2"></i> Color</span>
-		<i class="fa-solid fa-chevron-down text-xs"></i>
-		</button>
-		<div class="accordion-content mt-3 flex flex-wrap gap-2">
-		<span class="dot bg-black cursor-pointer" title="Black"></span>
-		<span class="dot bg-white cursor-pointer" title="White"></span>
-		<span class="dot bg-rose-500 cursor-pointer" title="Rose"></span>
-		<span class="dot bg-amber-600 cursor-pointer" title="Amber"></span>
-		<span class="dot bg-sky-500 cursor-pointer" title="Sky"></span>
-		<span class="dot bg-emerald-600 cursor-pointer" title="Green"></span>
-		</div>
-	</div>
+            <!-- CATEGORY -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-betw een items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-couch text-amber-600 mr-2"></i> Category</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
 
-	<!-- Price -->
-	<div class="accordion">
-		<button class="w-full flex justify-between items-center font-semibold py-2">
-		<span><i class="fa-solid fa-indian-rupee-sign text-amber-600 mr-2"></i> Price</span>
-		<i class="fa-solid fa-chevron-down text-xs"></i>
-		</button>
-		<div class="accordion-content mt-3">
-		<input id="priceRange" type="range" min="999" max="99999" value="24999" class="w-full accent-amber-600">
-		<div class="text-xs mt-1 text-gray-500">Up to
-			<span id="priceValue" class="font-medium text-gray-800">₹24,999</span>
-		</div>
-		</div>
-	</div>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2">
+                <form id="categoryForm" method="get" class="space-y-2 category-scroll max-h-64 overflow-y-auto pr-1 text-sm">
+                  {% for rs in category %}
+                  <label class="flex items-center gap-2 cursor-pointer hover:text-amber-600">
+                    <input type="checkbox" name="category" value="{{ rs.id }}" class="accent-amber-600 category-filter"
+                      {% if rs.id|stringformat:"s" in selected_categories %}checked{% endif %}>
+                    {{ rs.title }}
+                  </label>
+                  {% endfor %}
+                </form>
+              </div>
+            </div>
 
-	<button id="clearFilters" class="w-full mt-2 border rounded-lg py-2 hover:bg-gray-50 font-medium">
-		Clear All
-	</button>
-	</div>
-</aside>
+            <!-- BRAND -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-tags text-amber-600 mr-2"></i> Brand</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2">
+                <div class="category-scroll max-h-64 overflow-y-auto pr-1 space-y-2 text-sm">
+                  {% for br in brand %}
+                  <label class="flex items-center gap-2 cursor-pointer hover:text-amber-600">
+                    <input type="checkbox" name="brand" value="{{ br.id }}" class="accent-amber-600">
+                    {{ br.title }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
 
-<!-- =============== Product Grid =============== -->
-<section class="col-span-12 lg:col-span-9">
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- PRODUCT TYPE -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-star text-amber-600 mr-2"></i> Product Type</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+                <label class="flex items-center gap-2"><input type="radio" name="type" value="New Arrivals" class="accent-amber-600"> New Arrivals</label>
+                <label class="flex items-center gap-2"><input type="radio" name="type" value="Top Rated" class="accent-amber-600"> Top Rated</label>
+                <label class="flex items-center gap-2"><input type="radio" name="type" value="Featured" class="accent-amber-600"> Featured</label>
+              </div>
+            </div>
 
-	<!-- -------- Card 1 -------- -->
-	<article
-		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
-		data-title="Luxury Wooden Sofa"
-		data-price="₹24,999"
-		data-mrp="₹39,999"
-		data-img="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000"
-		data-brand="Cloud Furniture"
-		data-category="Living Room"
-		data-availability="In Stock"
-		data-desc="Crafted with premium Sheesham wood, this sofa set brings elegance and comfort to your home."
-		data-thumbs='[
-		"https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000",
-		"https://images.unsplash.com/photo-1582582428980-1e4c32469a2d?q=80&w=1000",
-		"https://images.unsplash.com/photo-1598300053967-62e9e65cfb1a?q=80&w=1000"
-		]'>
-		<div class="absolute left-3 top-3 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded">NEW</div>
-		<div class="relative overflow-hidden">
-		<img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000" class="w-full h-56 object-cover">
-		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
-			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">
-			Quick View
-			</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
-		</div>
-		</div>
-		<div class="p-4">
-		<h3 class="font-semibold truncate">Luxury Wooden Sofa</h3>
-		<div class="mt-1 text-xs text-yellow-600">★★★★☆ <span class="text-gray-400">(214)</span></div>
-		<div class="mt-2 flex items-center gap-2 text-sm">
-			<div class="font-bold text-amber-700">₹24,999</div>
-			<div class="line-through text-gray-400">₹39,999</div>
-			<span class="text-amber-600 text-xs font-semibold">(35% off)</span>
-		</div>
-		</div>
-	</article>
+            <!-- AVAILABILITY -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-boxes-stacked text-amber-600 mr-2"></i> Availability</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+                <label class="flex items-center gap-2"><input type="checkbox" name="availability" value="In Stock" class="accent-amber-600"> In Stock</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Limited Stock" class="accent-amber-600"> Limited Stock</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Pre Order" class="accent-amber-600"> Pre Order</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Out of Stock" class="accent-amber-600"> Out of Stock</label>
+              </div>
+            </div>
 
-	<!-- -------- Card 2 -------- -->
-	<article
-		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
-		data-title="Elegant Dining Table"
-		data-price="₹19,499"
-		data-mrp="₹25,999"
-		data-img="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000"
-		data-brand="TimberCraft"
-		data-category="Dining"
-		data-availability="Limited Stock"
-		data-desc="Premium 6-seater dining table with a sturdy build and satin finish."
-		data-thumbs='[
-		"https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000",
-		"https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?q=80&w=1000"
-		]'>
-		<div class="absolute left-3 top-3 text-[10px] bg-rose-600 text-white px-2 py-0.5 rounded">SALE</div>
-		<div class="relative overflow-hidden">
-		<img src="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1000" class="w-full h-56 object-cover">
-		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
-			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">Quick View</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
-		</div>
-		</div>
-		<div class="p-4">
-		<h3 class="font-semibold truncate">Elegant Dining Table</h3>
-		<div class="mt-1 text-xs text-yellow-600">★★★★★ <span class="text-gray-400">(98)</span></div>
-		<div class="mt-2 flex items-center gap-2 text-sm">
-			<div class="font-bold text-amber-700">₹19,499</div>
-			<div class="line-through text-gray-400">₹25,999</div>
-			<span class="text-amber-600 text-xs font-semibold">(25% off)</span>
-		</div>
-		</div>
-	</article>
+            <!-- COLOR -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-palette text-amber-600 mr-2"></i> Color</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+                <div class="flex flex-wrap gap-2">
+                  {% for rs in color %}
+                  <span class="w-6 h-6 rounded-full bg-black border cursor-pointer"></span>
+                 {% endfor %}
+                </div>
+              </div>
+            </div>
 
-	<!-- -------- Card 3 -------- -->
-	<article
-		class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
-		data-title="Premium King Size Bed"
-		data-price="₹29,999"
-		data-mrp="₹41,999"
-		data-img="https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000"
-		data-brand="SleepWell"
-		data-category="Bedroom"
-		data-availability="Pre Order"
-		data-desc="Spacious king size bed with ergonomic headboard and solid wood frame."
-		data-thumbs='[
-		"https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000",
-		"https://images.unsplash.com/photo-1505693196193-1d5d3f48f3f8?q=80&w=1000",
-		"https://images.unsplash.com/photo-1505693314120-7f6a1bca8b00?q=80&w=1000"
-		]'>
-		<div class="relative overflow-hidden">
-		<img src="https://images.unsplash.com/photo-1556229162-5c63ed9c4efb?q=80&w=1000" class="w-full h-56 object-cover">
-		<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
-			<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">Quick View</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Add to Cart</button>
-			<button class="bg-white border text-xs py-1 px-3 rounded hover:bg-gray-50">Wishlist</button>
-		</div>
-		</div>
-		<div class="p-4">
-		<h3 class="font-semibold truncate">Premium King Size Bed</h3>
-		<div class="mt-1 text-xs text-yellow-600">★★★★☆ <span class="text-gray-400">(312)</span></div>
-		<div class="mt-2 flex items-center gap-2 text-sm">
-			<div class="font-bold text-amber-700">₹29,999</div>
-			<div class="line-through text-gray-400">₹41,999</div>
-			<span class="text-amber-600 text-xs font-semibold">(28% off)</span>
-		</div>
-		</div>
-	</article>
+            <!-- SIZE -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-ruler-combined text-amber-600 mr-2"></i> Size</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 flex flex-wrap gap-2">
+                <label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">XS</label>
+                <label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">S</label>
+                <label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">M</label>
+                <label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">L</label>
+                <label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">XL</label>
+              </div>
+            </div>
 
-	</div>
-</section>
-</main>
+            <!-- DISCOUNT -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-percent text-amber-600 mr-2"></i> Discount</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 10% or more</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 20% or more</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 30% or more</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 50% or more</label>
+              </div>
+            </div>
 
-<!-- =============== Quick View Modal =============== -->
-<div id="quickViewModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 px-3">
-<div class="bg-white w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden" style="animation: fadeIn .25s ease">
-	<!-- Header -->
-	<div class="flex justify-between items-center px-6 py-4 border-b">
-	<h3 class="text-lg font-semibold">Quick View</h3>
-	<button id="closeModal" class="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
-	</div>
+            <!-- PRICE RANGE -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-indian-rupee-sign text-amber-600 mr-2"></i> Price Range</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-3">
+                <input id="priceRange" type="range" min="999" max="99999" value="24999" class="w-full accent-amber-600">
+                <div class="text-xs mt-1 text-gray-500">Up to <span id="priceValue" class="font-medium text-gray-800">₹24,999</span></div>
+              </div>
+            </div>
 
-	<!-- Body -->
-	<div class="grid md:grid-cols-2 gap-6 p-6">
-	<!-- Left: Image + Thumbs -->
-	<div>
-		<div class="relative overflow-hidden rounded-lg">
-		<img id="modalImg" src="" alt="Product Preview" class="w-full h-64 object-cover rounded-lg shadow-sm">
-		</div>
-		<div id="thumbStrip" class="flex gap-2 overflow-x-auto mt-3"></div>
-	</div>
+            <!-- RATING -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-star-half-stroke text-amber-600 mr-2"></i> Rating</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+                {% for i in "54321" %}
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="rating" value="{{ i }}" class="accent-amber-600">
+                  <span class="text-yellow-500">{% for j in i|make_list %}★{% endfor %}</span>
+                  <span class="text-gray-500">& Up</span>
+                </label>
+                {% endfor %}
+              </div>
+            </div>
 
-	<!-- Right: Content -->
-	<div>
-		<h4 id="modalProductTitle" class="text-2xl font-bold mb-1">Product Title</h4>
+            <!-- SORT BY -->
+            <div class="accordion border-b pb-3">
+              <button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+                <span><i class="fa-solid fa-arrow-up-wide-short text-amber-600 mr-2"></i> Sort By</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-3">
+                <select class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600">
+                  <option>Relevance</option>
+                  <option>Price: Low to High</option>
+                  <option>Price: High to Low</option>
+                  <option>Newest First</option>
+                </select>
+              </div>
+            </div>
 
-		<div class="text-xs text-yellow-500 mb-2">★★★★☆ <span class="text-gray-400">(200+)</span></div>
+            <!-- CLEAR BUTTON -->
+            <button id="clearFilters" class="w-full mt-4 border border-amber-600 rounded-lg py-2 hover:bg-amber-600 hover:text-white font-medium text-amber-700 transition">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Clear All Filters
+            </button>
 
-		<!-- Prices -->
-		<div class="flex items-center gap-2 mb-3">
-		<div id="modalPrice" class="text-2xl font-bold text-amber-700">₹—</div>
-		<div id="modalMrp" class="line-through text-gray-400">₹—</div>
-		</div>
+          </div>
+        </aside>
 
-		<!-- Meta -->
-		<div class="space-y-1 text-sm text-gray-700 mb-4">
-		<p><strong>Brand:</strong> <span id="modalBrand" class="text-gray-800">—</span></p>
-		<p><strong>Category:</strong> <span id="modalCategory" class="text-gray-800">—</span></p>
-		<p>
-			<strong>Availability:</strong>
-			<span id="modalAvailability" class="font-semibold">—</span>
-		</p>
-		</div>
 
-		<!-- Color Dots (visual only) -->
-		<div class="mb-3">
-		<p class="text-sm font-medium text-gray-800 mb-1">Colors</p>
-		<div class="flex gap-2">
-			<span class="dot bg-black"></span>
-			<span class="dot bg-amber-600"></span>
-			<span class="dot bg-rose-500"></span>
-			<span class="dot bg-sky-500"></span>
-		</div>
-		</div>
 
-		<!-- Size (visual only) -->
-		<div class="mb-4">
-		<label class="text-sm font-medium text-gray-800 mb-1 block">Size</label>
-		<select class="border rounded px-3 py-2 w-full text-sm">
-			<option>Small</option>
-			<option>Medium</option>
-			<option>Large</option>
-		</select>
-		</div>
+    <!-- =============== Product Grid =============== -->
+    <section class="col-span-12 lg:col-span-9">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-		<!-- Description -->
-		<p id="modalDescription" class="text-sm text-gray-600 mb-5">
-		—
-		</p>
+        <!-- -------- Card 1 -------- -->
+		 {% for rs in products %}
+        <article
+          class="card group bg-white border rounded-xl overflow-hidden shadow-soft relative"
+          data-title="{{rs.title |truncatechars:40}}"
+          data-price="₹{{ rs.get_final_price|intcomma }}"
+          data-mrp="₹{{ rs.price|intcomma }}"
+          data-img="{{rs.image.url}}"
+          data-brand="{{rs.brand}}"
+          data-category="{{rs.category}}"
+          data-availability="{{rs.availability}}"
+          data-desc="{{rs.description}}"
+          data-thumbs='[
+      "{{ rs.image.url }}"{% for img in rs.images_set.all %},"{{ img.image.url }}"{% endfor %}
+      ]'
+      >
+			  <div class="absolute left-3 top-3 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded">
+				{% if rs.discount > 0 %}
+				{{ rs.discount }}% OFF
+				{% endif %}
+			</div>
+			<div class="absolute left-3 top-3 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded"></div>
+			
+			<div class="relative overflow-hidden">
+			<a href="{% url 'product_detail' rs.id rs.slug %}">
+				<img src="{{rs.image.url}}" class="w-full h-56 object-cover">
+			</a>
+				<div class="absolute top-3 right-[-120px] group-hover:right-3 transition-all duration-300 flex flex-col gap-2">
+				<button class="bg-amber-600 text-white text-xs py-1 px-3 rounded shadow quick-view-btn hover:bg-amber-700 transition">
+					Quick View
+				</button>
+				
+                  <div class="flex gap-3">
+            {% for rs in products|slice:":1" %}
+              <a href=""
+                class="flex-1 bg-amber-600 text-white rounded hover:bg-amber-700 transition flex items-center justify-center">
+              Add to Cart
+              </a>
+            {% endfor %}
 
-		<div class="flex gap-3">
-		<button class="flex-1 bg-amber-600 text-white py-2 rounded hover:bg-amber-700 transition">
-			<i class="fa-solid fa-cart-shopping mr-1"></i> Add to Cart
-		</button>
-		<button class="flex-1 border py-2 rounded hover:bg-gray-50 transition">
-			<i class="fa-solid fa-eye mr-1"></i> View Details
-		</button>
-		</div>
-	</div>
-	</div>
-</div>
-</div>
+        </div>
+			</div>
+
+			<div class="p-4">
+			<a href="{% url 'product_detail' rs.id rs.slug %}">
+
+				<h3 class="font-semibold truncate">{{rs.title}}</h3>
+			</a>
+
+				<div class="mt-1 text-xs text-yellow-600">★★★★☆ <span class="text-gray-400">(214)</span></div>
+				<div class="mt-2 flex items-center gap-2 text-sm">
+				<div class="font-bold text-amber-700">₹{{ rs.get_final_price|intcomma }}</div>
+				<div class="line-through text-gray-400">₹{{ rs.price|intcomma }}</div>
+				<span class="text-amber-600 text-xs font-semibold">({{rs.discount}}% off)</span>
+				</div>
+			</div>
+        </article>
+		{% endfor %}
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =============== Quick View Modal =============== -->
+  <div id="quickViewModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 px-3">
+    <div class="bg-white w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden" style="animation: fadeIn .25s ease">
+      <!-- Header -->
+      <div class="flex justify-between items-center px-6 py-4 border-b">
+        <h3 class="text-lg font-semibold">Quick View</h3>
+        <button id="closeModal" class="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+      </div>
+
+      <!-- Body -->
+      <div class="grid md:grid-cols-2 gap-6 p-6">
+        <!-- Left: Image + Thumbs -->
+        <div>
+          <div class="relative overflow-hidden rounded-lg">
+            <img id="modalImg" src="" alt="Product Preview" class="w-full h-64 object-cover rounded-lg shadow-sm">
+          </div>
+          <div id="thumbStrip" class="flex gap-2 overflow-x-auto mt-3"></div>
+        </div>
+
+        <!-- Right: Content -->
+        <div>
+          <h4 id="modalProductTitle" class="text-2xl font-bold mb-1">Product Title</h4>
+
+          <div class="text-xs text-yellow-500 mb-2">★★★★☆ <span class="text-gray-400">(200+)</span></div>
+
+          <!-- Prices -->
+          <div class="flex items-center gap-2 mb-3">
+            <div id="modalPrice" class="text-2xl font-bold text-amber-700">₹—</div>
+            <div id="modalMrp" class="line-through text-gray-400">₹—</div>
+          </div>
+
+          <!-- Meta -->
+          <div class="space-y-1 text-sm text-gray-700 mb-4">
+            <p><strong>Brand:</strong> <span id="modalBrand" class="text-gray-800">—</span></p>
+            <p><strong>Category:</strong> <span id="modalCategory" class="text-gray-800">—</span></p>
+            <p>
+              <strong>Availability:</strong>
+              <span id="modalAvailability" class="font-semibold">—</span>
+            </p>
+          </div>
+
+          <!-- Color Dots (visual only) -->
+          <div class="mb-3">
+            <p class="text-sm font-medium text-gray-800 mb-1">Colors</p>
+            <div class="flex gap-2">
+              <span class="dot bg-black"></span>
+              <span class="dot bg-amber-600"></span>
+              <span class="dot bg-rose-500"></span>
+              <span class="dot bg-sky-500"></span>
+            </div>
+          </div>
+
+          <!-- Size (visual only) -->
+          <div class="mb-4">
+            <label class="text-sm font-medium text-gray-800 mb-1 block">Size</label>
+            <select class="border rounded px-3 py-2 w-full text-sm">
+              <option>Small</option>
+              <option>Medium</option>
+              <option>Large</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <p id="modalDescription" class="text-sm text-gray-600 mb-5">
+            —
+          </p>
+
+          <div class="flex gap-3">
+          <a href=""
+        class="flex-1 bg-amber-600 text-white py-2 rounded hover:bg-amber-700 transition flex items-center justify-center">
+        <i class="fa-solid fa-cart-shopping mr-1"></i> Add to Cart
+      </a>
+
+			
+          {% for rs in products|slice:":1" %}
+
+            <a href="{{rs.get_absolute_url}}">
+            <button class="flex-1 border py-2 rounded hover:bg-gray-50 transition">
+              <i class="fa-solid fa-eye mr-1"></i> View Details
+            </button>
+            </a>
+          {% endfor %}
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <!-- =============== Pagination =============== -->
+<!-- 🌟 Stylish Pagination -->
+  <div class="flex justify-center mt-12 mb-3">
+    <nav aria-label="Page navigation"
+        class="inline-flex items-center bg-white border border-gray-200 rounded-full shadow-sm overflow-hidden px-2 py-1 backdrop-blur-sm">
+      
+      <!-- Previous Button -->
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for cat in selected_categories %}&category={{ cat }}{% endfor %}"
+          class="flex items-center justify-center w-10 h-10 text-gray-700 hover:bg-amber-100 rounded-full transition duration-300 group">
+          <i class="fa-solid fa-chevron-left text-sm group-hover:text-amber-600"></i>
+        </a>
+      {% else %}
+        <span class="flex items-center justify-center w-10 h-10 text-gray-400 cursor-not-allowed">
+          <i class="fa-solid fa-chevron-left text-sm"></i>
+        </span>
+      {% endif %}
+
+      <!-- Page Numbers -->
+      <div class="flex items-center gap-1 px-2">
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <span class="w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-semibold shadow-inner">
+              {{ num }}
+            </span>
+          {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+            <a href="?page={{ num }}{% for cat in selected_categories %}&category={{ cat }}{% endfor %}"
+              class="w-10 h-10 flex items-center justify-center text-gray-700 border border-gray-200 rounded-full hover:bg-amber-50 hover:text-amber-600 transition duration-300">
+              {{ num }}
+            </a>
+          {% elif num == 1 %}
+            <a href="?page=1" class="w-10 h-10 flex items-center justify-center text-gray-700 border border-gray-200 rounded-full hover:bg-amber-50 hover:text-amber-600 transition duration-300">
+              1
+            </a>
+            {% if page_obj.number > 4 %}<span class="px-1 text-gray-400">...</span>{% endif %}
+          {% elif num == page_obj.paginator.num_pages %}
+            {% if page_obj.number < page_obj.paginator.num_pages|add:-3 %}
+              <span class="px-1 text-gray-400">...</span>
+            {% endif %}
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="w-10 h-10 flex items-center justify-center text-gray-700 border border-gray-200 rounded-full hover:bg-amber-50 hover:text-amber-600 transition duration-300">
+              {{ page_obj.paginator.num_pages }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Next Button -->
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for cat in selected_categories %}&category={{ cat }}{% endfor %}"
+          class="flex items-center justify-center w-10 h-10 text-gray-700 hover:bg-amber-100 rounded-full transition duration-300 group">
+          <i class="fa-solid fa-chevron-right text-sm group-hover:text-amber-600"></i>
+        </a>
+      {% else %}
+        <span class="flex items-center justify-center w-10 h-10 text-gray-400 cursor-not-allowed">
+          <i class="fa-solid fa-chevron-right text-sm"></i>
+        </span>
+      {% endif %}
+    </nav>
+  </div>
+
+
 
   <!-- =============== JS =============== -->
-	<script>
-		// Accordion open/close
-		document.querySelectorAll('.accordion button').forEach(btn=>{
-		btn.addEventListener('click', ()=> btn.parentElement.classList.toggle('open'));
-		});
 
-		// Price range live text
-		const priceRange = document.getElementById('priceRange');
-		const priceValue = document.getElementById('priceValue');
-		priceRange.addEventListener('input', ()=> {
-		priceValue.textContent = `₹${Number(priceRange.value).toLocaleString()}`;
-		});
 
-		// Clear filters (UI only)
-		document.getElementById('clearFilters').addEventListener('click', ()=>{
-		document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
-		priceRange.value = 24999; priceValue.textContent = '₹24,999';
-		});
 
-		// Quick View
-		const modal = document.getElementById('quickViewModal');
-		const closeModal = document.getElementById('closeModal');
-		const modalImg = document.getElementById('modalImg');
-		const modalTitle = document.getElementById('modalProductTitle');
-		const modalPrice = document.getElementById('modalPrice');
-		const modalMrp = document.getElementById('modalMrp');
-		const modalBrand = document.getElementById('modalBrand');
-		const modalCategory = document.getElementById('modalCategory');
-		const modalAvail = document.getElementById('modalAvailability');
-		const modalDesc = document.getElementById('modalDescription');
-		const thumbStrip = document.getElementById('thumbStrip');
+  <script>
+        // Accordion open/close
+      document.querySelectorAll('.accordion button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const accordion = btn.parentElement;
+        const content = accordion.querySelector('.accordion-content');
+        const icon = btn.querySelector('i.fa-chevron-down');
 
-		// Open modal with data from the card
-		document.querySelectorAll('.quick-view-btn').forEach(btn=>{
-		btn.addEventListener('click', ()=>{
-			const card = btn.closest('.card');
-			modalTitle.textContent = card.dataset.title || '—';
-			modalPrice.textContent = card.dataset.price || '₹—';
-			modalMrp.textContent = card.dataset.mrp || '₹—';
-			modalBrand.textContent = card.dataset.brand || '—';
-			modalCategory.textContent = card.dataset.category || '—';
-			modalAvail.textContent = card.dataset.availability || '—';
-			modalDesc.textContent = card.dataset.desc || '—';
+        accordion.classList.toggle('open');
+        if (accordion.classList.contains('open')) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+        } else {
+        content.style.maxHeight = null;
+        icon.style.transform = 'rotate(0deg)';
+        }
+      });
+      });
 
-			// Availability color
-			modalAvail.classList.remove('text-green-600','text-red-600','text-amber-600','text-blue-600');
-			const av = (card.dataset.availability || '').toLowerCase();
-			if (av.includes('in stock')) modalAvail.classList.add('text-green-600');
-			else if (av.includes('out')) modalAvail.classList.add('text-red-600');
-			else if (av.includes('limited')) modalAvail.classList.add('text-amber-600');
-			else if (av.includes('pre')) modalAvail.classList.add('text-blue-600');
+      // Price Range display
+      const priceRange = document.getElementById('priceRange');
+      const priceValue = document.getElementById('priceValue');
+      priceRange.addEventListener('input', () => {
+      priceValue.textContent = `₹${Number(priceRange.value).toLocaleString()}`;
+      });
 
-			// Main image
-			modalImg.src = card.dataset.img || '';
+      // Clear Filters
+      document.getElementById('clearFilters').addEventListener('click', () => {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      priceRange.value = 24999;
+      priceValue.textContent = `₹24,999`;
+      });
 
-			// Thumbs
-			thumbStrip.innerHTML = '';
-			let thumbs = [];
-			try { thumbs = JSON.parse(card.dataset.thumbs || '[]'); } catch(e){}
-			if (!thumbs.length && card.dataset.img) thumbs = [card.dataset.img];
 
-			thumbs.forEach((src, idx)=>{
-			const t = document.createElement('img');
-			t.src = src;
-			t.className = 'thumb-mini w-16 h-16 object-cover rounded cursor-pointer border hover:border-amber-500';
-			if (idx===0) t.classList.add('active');
-			t.addEventListener('click', ()=>{
-				modalImg.src = src;
-				document.querySelectorAll('#thumbStrip .thumb-mini').forEach(el=>el.classList.remove('active'));
-				t.classList.add('active');
-			});
-			thumbStrip.appendChild(t);
-			});
+        // Quick View
+        const modal = document.getElementById('quickViewModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalProductTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalMrp = document.getElementById('modalMrp');
+        const modalBrand = document.getElementById('modalBrand');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalAvail = document.getElementById('modalAvailability');
+        const modalDesc = document.getElementById('modalDescription');
+        const thumbStrip = document.getElementById('thumbStrip');
 
-			modal.classList.remove('hidden');
-			modal.classList.add('flex');
-		});
-		});
+        // Open modal with data from the card
+        document.querySelectorAll('.quick-view-btn').forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            const card = btn.closest('.card');
+            modalTitle.textContent = card.dataset.title || '—';
+            modalPrice.textContent = card.dataset.price || '₹—';
+            modalMrp.textContent = card.dataset.mrp || '₹—';
+            modalBrand.textContent = card.dataset.brand || '—';
+            modalCategory.textContent = card.dataset.category || '—';
+            modalAvail.textContent = card.dataset.availability || '—';
+            modalDesc.textContent = card.dataset.desc || '—';
 
-		// Close modal
-		closeModal.addEventListener('click', ()=>{
-		modal.classList.add('hidden'); modal.classList.remove('flex');
-		});
-		modal.addEventListener('click', (e)=>{
-		if (e.target === modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-		});
-	</script>
+            // Availability color
+            modalAvail.classList.remove('text-green-600','text-red-600','text-amber-600','text-blue-600');
+            const av = (card.dataset.availability || '').toLowerCase();
+            if (av.includes('in stock')) modalAvail.classList.add('text-green-600');
+            else if (av.includes('out')) modalAvail.classList.add('text-red-600');
+            else if (av.includes('limited')) modalAvail.classList.add('text-amber-600');
+            else if (av.includes('pre')) modalAvail.classList.add('text-blue-600');
+
+            // Main image
+            modalImg.src = card.dataset.img || '';
+
+            // Thumbs
+            thumbStrip.innerHTML = '';
+            let thumbs = [];
+            try { thumbs = JSON.parse(card.dataset.thumbs || '[]'); } catch(e){}
+            if (!thumbs.length && card.dataset.img) thumbs = [card.dataset.img];
+
+            thumbs.forEach((src, idx)=>{
+              const t = document.createElement('img');
+              t.src = src;
+              t.className = 'thumb-mini w-16 h-16 object-cover rounded cursor-pointer border hover:border-amber-500';
+              if (idx===0) t.classList.add('active');
+              t.addEventListener('click', ()=>{
+                modalImg.src = src;
+                document.querySelectorAll('#thumbStrip .thumb-mini').forEach(el=>el.classList.remove('active'));
+                t.classList.add('active');
+              });
+              thumbStrip.appendChild(t);
+            });
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+          });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', ()=>{
+          modal.classList.add('hidden'); modal.classList.remove('flex');
+        });
+        modal.addEventListener('click', (e)=>{
+          if (e.target === modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        });
+  </script>
+     
+
+    <script>
+      function addToCart(productId){
+        fetch(`/cart/add/${productId}/`)
+          .then(res=>res.json())
+          .then(data=>{
+            if(data.status==='success'){
+              alert(data.message);
+              document.getElementById('cart-count').innerText = data.total_items;
+            }
+          });
+      }
+    </script>
+
+</body>
+</html>
+
+
 
 {% endblock %}

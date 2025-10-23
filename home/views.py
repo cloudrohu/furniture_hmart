@@ -1,5 +1,5 @@
 import json
-
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -17,7 +17,7 @@ from django.utils import translation
 from home.forms import SearchForm
 from home.models import Setting, CustomerSupport, ContactForm, ContactMessage,FAQ, Testimonial, Showroom,Slider,Offer,Banner
 from furniture_hmart import settings
-from product.models import Category, Specification, TopProductOfWeek, Product, Images, Comment, Variants,Brand,ModularKitchen
+from product.models import Category, Specification, TopProductOfWeek, Product, Images, Comment, Variants,Brand,ModularKitchen,Color
 from user.models import UserProfile
 # Create your views here.
 
@@ -269,7 +269,6 @@ def ajaxcolor(request):
 
 
 def faq(request):
-   
     return render(request, 'faq.html')
 
 
@@ -277,18 +276,35 @@ def faq(request):
 def All_Product(request):
     setting = Setting.objects.all().order_by('-id')[:1]
     category = Category.objects.all()
-    offer = Offer.objects.filter(featured_project = 'True').order_by('id')[:2]  #first 4 products
-    featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]  #first 4 products
-    slider = Slider.objects.filter(featured_project = 'True').order_by('id')[0:6]  #first 4 products
-    banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2]  #first 4 products
+    offer = Offer.objects.filter(featured_project = 'True').order_by('id')[:2]
+    featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]
+    slider = Slider.objects.filter(featured_project = 'True').order_by('id')[0:6]
+    banner = Banner.objects.filter(featured_project = 'True').order_by('id')[0:2]
     brand = Brand.objects.all().order_by('?')[0:20]  #first 4 products
     products_slider = Product.objects.all().order_by('id')[:4]  #first 4 products
     products_latest = Product.objects.all().order_by('-id')[:8]  # last 4 products
-    featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]  # last 4 products
-    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:8]  # last 4 products
-    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:8]  # last 4 products
-    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:8]  # last 4 products
-    products_picked = Product.objects.all().order_by('?')[:8]   #Random selected 4 products
+    featured_project = Product.objects.filter(featured_project = 'True').order_by('-id')[:12]
+    New_Arrivals = Product.objects.filter(type = 'New Arrivals').order_by('-id')[:8]
+    Top_Rated = Product.objects.filter(type = 'Top Rated').order_by('-id')[:8]
+    featured = Product.objects.filter(type = 'Featured').order_by('-id')[:8]
+    products_picked = Product.objects.all().order_by('?')[:8]
+    color = Color.objects.all().order_by('?')[:8]
+    products = Product.objects.filter(status='True').order_by('-id')
+
+
+
+     # ✅ Category filtering
+    selected_categories = request.GET.getlist('category')
+    if selected_categories:
+        products = products.filter(category__id__in=selected_categories)
+
+
+    # ✅ Pagination setup
+    paginator = Paginator(products,12 )  # 9 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
     page="home"
     context={
         'brand':brand,
@@ -297,8 +313,11 @@ def All_Product(request):
         'slider':slider,
         'setting':setting,
         'category':category,
+        'color':color,
         'page':page,
         'products_picked':products_picked,
+        'products': page_obj,  # 👈 replace products with page_obj
+        'page_obj': page_obj,  
         'products_slider':products_slider,
         'products_latest':products_latest,
         'featured_project':featured_project,
@@ -309,3 +328,4 @@ def All_Product(request):
     }
 
     return render(request,'all_product.html',context)
+
