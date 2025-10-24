@@ -25,7 +25,7 @@ overlay.addEventListener('click', closeMenu);
 // ====== CATEGORY -> SUBCATEGORY (ALL HTML-BASED) ======
 document.querySelectorAll('.catBtn').forEach(btn => {
   btn.addEventListener('click', () => {
-    const target = btn.getAttribute('data-target'); // e.g. "living"
+    const target = btn.getAttribute('data-target')
     // hide all panels
     document.querySelectorAll('#submenuShell > div').forEach(p => p.classList.add('hidden'));
     // show required panel

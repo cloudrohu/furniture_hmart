@@ -25,7 +25,7 @@ from user.models import UserProfile
 def index(request):
     setting = Setting.objects.all().order_by('-id')[:1]
     support_info = CustomerSupport.objects.first()
-    category = Category.objects.all()
+    category = Category.objects.filter(parent__isnull=True).prefetch_related('children').order_by('id')
     testimonials = Testimonial.objects.filter(is_active=True).order_by('-created_at')[:100]
     offer = Offer.objects.filter(featured_project = 'True').order_by('id')[:2]  #first 4 products
     featured_category = Category.objects.filter(featured_category = 'True').order_by('id')[:3]  #first 4 products
@@ -70,6 +70,7 @@ def index(request):
 
     return render(request,'index.html',context)
 
+
 def SERVICES(request):
     #category = categoryTree(0,'',currentlang)
     setting = Setting.objects.all().order_by('-id')[:1]
@@ -79,6 +80,7 @@ def SERVICES(request):
         'category':category
     } 
     return render(request, 'service.html',context)
+
 
 def furniture(request):
     #category = categoryTree(0,'',currentlang)
@@ -105,6 +107,7 @@ def aboutus(request):
  
     return render(request, 'about.html',context)
 
+
 def contactus(request):
     setting = Setting.objects.all().order_by('-id')[:1]
 
@@ -130,18 +133,35 @@ def contactus(request):
     }    
     return render(request, 'contactus.html',context)
 
-def category_products(request,id,slug):
-    setting = Setting.objects.all().order_by('-id')[:1]
-    
-    category = Category.objects.all()
-    products = Product.objects.filter(category_id=id) #default language
-    
-    context={'products': products,
-             'setting':setting,
-             #'category':category,
-             'category':category }
-    return render(request,'category_products.html',context)
 
+def category_products(request, id, slug):
+    setting = Setting.objects.all().order_by('-id')[:1]
+    current_category = Category.objects.get(id=id)
+    
+    # Subcategories under this category
+    subcategories = Category.objects.filter(parent=current_category)
+
+    # Collect all nested subcategory IDs (including current one)
+    all_category_ids = [current_category.id]
+    def get_all_children(cat):
+        children = Category.objects.filter(parent=cat)
+        for child in children:
+            all_category_ids.append(child.id)
+            get_all_children(child)
+    get_all_children(current_category)
+    
+    # Fetch all products that belong to current category or its nested subcategories
+    products = Product.objects.filter(category_id__in=all_category_ids, status='True').distinct()
+
+    context = {
+        'setting': setting,
+        'current_category': current_category,
+        'category': Category.objects.filter(parent__isnull=True),  # show only main categories in sidebar
+        'subcategories': subcategories,
+        'products': products,
+    }
+
+    return render(request, 'category_products.html', context)   
 
 def search(request):
     setting = Setting.objects.all().order_by('-id')[:1]
@@ -300,7 +320,7 @@ def All_Product(request):
 
 
     # ✅ Pagination setup
-    paginator = Paginator(products,12 )  # 9 products per page
+    paginator = Paginator(products,18 )  # 9 products per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

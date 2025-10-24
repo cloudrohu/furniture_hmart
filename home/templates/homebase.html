@@ -1,81 +1,87 @@
-{% load static %}
-<!DOCTYPE html>
-{% for rs in setting %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="{{ rs.description}}">
-  <meta name="keywords" content="{{ rs.keywords}}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <title>{{rs.title}}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Tailwind + Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="{% static '' %}assets//css/style.css">
-</head>
-<body class="bg-gray-200">
+  {% load static %}
+  <!DOCTYPE html>
+  {% for rs in setting %}
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="{{ rs.description}}">
+    <meta name="keywords" content="{{ rs.keywords}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <title>{{rs.title}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind + Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{% static '' %}assets//css/style.css">
+  </head>
+  <body class="bg-gray-200">
 
 
-{% include 'header.html' %}
+  {% include 'header.html' %}
 
-{% block slider %} {% endblock %}
-{% block category %} {% endblock %}
-{% block body %} {% endblock %}
-{% include 'footer.html' %}
+  {% block slider %} {% endblock %}
+  {% block category %} {% endblock %}
+  {% block body %} {% endblock %}
+  {% include 'footer.html' %}
 
-{% block foot %} {% endblock %}
-
-
-
-<!-- WhatsApp Floating Button -->
-<a href="https://wa.me/{{rs.phone}}?text=Hello{{rs.title}}%20Team%2C%20I%20am%20interested%20in%20your%20products."
-   target="_blank"
-   class="fixed bottom-6 right-6 bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-full shadow-xl z-50 flex items-center justify-center transition transform hover:scale-110 hover:shadow-2xl">
-
-   <i class="fa-brands fa-whatsapp text-3xl"></i>
-</a>
-
-<!-- Floating Vertical Buttons END -->
+  {% block foot %} {% endblock %}
 
 
 
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/{{rs.phone}}?text=Hello{{rs.title}}%20Team%2C%20I%20am%20interested%20in%20your%20products."
+    target="_blank"
+    class="fixed bottom-6 right-6 bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-full shadow-xl z-50 flex items-center justify-center transition transform hover:scale-110 hover:shadow-2xl">
 
-<!--LINK JS START HERE -->
-<scriptlink>  
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <i class="fa-brands fa-whatsapp text-3xl"></i>
+  </a>
 
-
-
-  <!-- Alpine.js for slider logic -->
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-  <!-- Alpine.js for slider logic -->
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Swiper.js CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-  
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-
-  <script src="{% static '' %}assets/js/nav.js"></script>
-  <script src="{% static '' %}assets/js/script.js"></script>
-  <script src="{% static '' %}assets/js/slider.js"></script>
+  <!-- Floating Vertical Buttons END -->
 
 
 
 
-</scriptlink>
-<!--LINK JS END HERE -->
+  <!--LINK JS START HERE -->
+  <scriptlink>  
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 
-</body>
-</html>
-{% endfor %}
+
+    <!-- Alpine.js for slider logic -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Alpine.js for slider logic -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Swiper.js CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+    <script src="{% static '' %}assets/js/nav.js"></script>
+    <script src="{% static '' %}assets/js/script.js"></script>
+    <script src="{% static '' %}assets/js/slider.js"></script>
+
+
+
+
+  </scriptlink>
+  <!--LINK JS END HERE -->
+
+
+  </body>
+  </html>
+  {% endfor %}
+
+
+  +
+
+
+  mn m

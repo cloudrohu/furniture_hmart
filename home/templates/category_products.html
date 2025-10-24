@@ -5,290 +5,320 @@
 {% block keywords %} {{ category.keywords }} {% endblock %}
 
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
-
+{% load humanize %}
 {% block body %}
 
-	<!-- BREADCRUMB -->
-	<div id="breadcrumb">
-		<div class="container">
-			<ul class="breadcrumb">
-				<li><a href="/">Home</a></li>
-				<li class="active">{{ catdata.title }} Products </li>
-			</ul>
+<!-- 🌈 Category Banner -->
+<section class="relative mt-1.5 bg-gradient-to-r from-amber-50 via-white to-amber-100 py-12 mb-10 rounded-b-3xl shadow">
+  <div class="max-w-7xl mx-auto text-center px-6">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">
+      {{ current_category.title }}
+    </h1>
+    <p class="text-gray-600 mt-3 text-lg">
+      Explore our exclusive {{ current_category.title|lower }} collection designed for comfort and style.
+    </p>
+  </div>
+</section>
+
+<!-- 🌟 Main Wrapper -->
+<main class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-12 gap-8">
+
+ <aside class="col-span-12 lg:col-span-3 space-y-6 fixed lg:static w-full lg:w-auto">
+	<div class="rounded-2xl border bg-white p-6 shadow-md space-y-6">
+
+	<!-- Header -->
+	<h3 class="font-semibold text-xl flex items-center gap-2 text-gray-800">
+		<i class="fa-solid fa-sliders text-amber-600"></i> Filters
+	</h3>
+
+	<!-- CATEGORY -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-betw een items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-couch text-amber-600 mr-2"></i> Category</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2">
+		<form id="categoryForm" method="get" class="space-y-2 category-scroll max-h-64 overflow-y-auto pr-1 text-sm">
+			{% for rs in category %}
+			<label class="flex items-center gap-2 cursor-pointer hover:text-amber-600">
+			<input type="checkbox" name="category" value="{{ rs.id }}" class="accent-amber-600 category-filter"
+				{% if rs.id|stringformat:"s" in selected_categories %}checked{% endif %}>
+			{{ rs.title }}
+			</label>
+			{% endfor %}
+		</form>
 		</div>
 	</div>
-	<!-- /BREADCRUMB -->
-	<!-- section -->
-	<div class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<!-- ASIDE -->
-				<div id="aside" class="col-md-3">
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Shop by:</h3>
-						<ul class="filter-list">
-							<li><span class="text-uppercase">color:</span></li>
-							<li><a href="#" style="color:#FFF; background-color:#8A2454;">Camelot</a></li>
-							<li><a href="#" style="color:#FFF; background-color:#475984;">East Bay</a></li>
-							<li><a href="#" style="color:#FFF; background-color:#BF6989;">Tapestry</a></li>
-							<li><a href="#" style="color:#FFF; background-color:#9A54D8;">Medium Purple</a></li>
-						</ul>
 
-						<ul class="filter-list">
-							<li><span class="text-uppercase">Size:</span></li>
-							<li><a href="#">X</a></li>
-							<li><a href="#">XL</a></li>
-						</ul>
-
-						<ul class="filter-list">
-							<li><span class="text-uppercase">Price:</span></li>
-							<li><a href="#">MIN: $20.00</a></li>
-							<li><a href="#">MAX: $120.00</a></li>
-						</ul>
-
-						<ul class="filter-list">
-							<li><span class="text-uppercase">Gender:</span></li>
-							<li><a href="#">Men</a></li>
-						</ul>
-
-						<button class="primary-btn">Clear All</button>
-					</div>
-					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Price</h3>
-						<div id="price-slider"></div>
-					</div>
-					<!-- aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter By Color:</h3>
-						<ul class="color-option">
-							<li><a href="#" style="background-color:#475984;"></a></li>
-							<li><a href="#" style="background-color:#8A2454;"></a></li>
-							<li class="active"><a href="#" style="background-color:#BF6989;"></a></li>
-							<li><a href="#" style="background-color:#9A54D8;"></a></li>
-							<li><a href="#" style="background-color:#675F52;"></a></li>
-							<li><a href="#" style="background-color:#050505;"></a></li>
-							<li><a href="#" style="background-color:#D5B47B;"></a></li>
-						</ul>
-					</div>
-					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter By Size:</h3>
-						<ul class="size-option">
-							<li class="active"><a href="#">S</a></li>
-							<li class="active"><a href="#">XL</a></li>
-							<li><a href="#">SL</a></li>
-						</ul>
-					</div>
-					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Brand</h3>
-						<ul class="list-links">
-							<li><a href="#">Nike</a></li>
-							<li><a href="#">Adidas</a></li>
-							<li><a href="#">Polo</a></li>
-							<li><a href="#">Lacost</a></li>
-						</ul>
-					</div>
-					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Gender</h3>
-						<ul class="list-links">
-							<li class="active"><a href="#">Men</a></li>
-							<li><a href="#">Women</a></li>
-						</ul>
-					</div>
-					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Top Rated Product</h3>
-						<!-- widget product -->
-						<div class="product product-widget">
-							<div class="product-thumb">
-								<img src="./img/thumb-product01.jpg" alt="">
-							</div>
-							<div class="product-body">
-								<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-								<h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
-								</div>
-							</div>
-						</div>
-						<!-- /widget product -->
-
-						<!-- widget product -->
-						<div class="product product-widget">
-							<div class="product-thumb">
-								<img src="./img/thumb-product01.jpg" alt="">
-							</div>
-							<div class="product-body">
-								<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-								<h3 class="product-price">$32.50</h3>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
-								</div>
-							</div>
-						</div>
-						<!-- /widget product -->
-					</div>
-					<!-- /aside widget -->
-				</div>
-				<!-- /ASIDE -->
-
-				<!-- MAIN -->
-				<div id="main" class="col-md-9">
-					<!-- store top filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store top filter -->
-
-					<!-- STORE -->
-					<div id="store">
-						<!-- row -->
-						<div class="row">
-
-                            <div class="col-md-12">
-						<div class="order-summary clearfix">
-							<div class="section-title">
-								<h3 class="title">Product List</h3>
-							</div>
-							<table class="shopping-cart-table table">
-								<thead>
-									<tr>
-										<th>Product</th>
-										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-
-										<th class="text-right"></th>
-									</tr>
-								</thead>
-								<tbody>
-
-                                {% for rs in products %}
-									<tr>
-										<td class="thumb"><a href="{% url 'product_detail' rs.id rs.slug %}">
-                                            <img src="{{ rs.image.url }}" alt="" style="height: 100px">
-                                        </a></td>
-										<td class="details"> <a href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a>	</td>
-										<td class="price text-center"><strong></strong><br><del class="font-weak"><small>$40.00</small></del></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-
-										<td class="text-right"><a href="order/addtoshopcart/{{ product.id }}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a></td>
-									</tr>
-                                    {% endfor %}
-
-								</tbody>
-
-							</table>
-
-						</div>
-
-					</div>
-
-						</div>
-						<!-- /row -->
-					</div>
-					<!-- /STORE -->
-
-					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store bottom filter -->
-				</div>
-				<!-- /MAIN -->
-			</div>
-			<!-- /row -->
+	<!-- BRAND -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-tags text-amber-600 mr-2"></i> Brand</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2">
+		<div class="category-scroll max-h-64 overflow-y-auto pr-1 space-y-2 text-sm">
+			{% for br in brand %}
+			<label class="flex items-center gap-2 cursor-pointer hover:text-amber-600">
+			<input type="checkbox" name="brand" value="{{ br.id }}" class="accent-amber-600">
+			{{ br.title }}
+			</label>
+			{% endfor %}
 		</div>
-		<!-- /container -->
+		</div>
 	</div>
-	<!-- /section -->
 
+	<!-- PRODUCT TYPE -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-star text-amber-600 mr-2"></i> Product Type</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+		<label class="flex items-center gap-2"><input type="radio" name="type" value="New Arrivals" class="accent-amber-600"> New Arrivals</label>
+		<label class="flex items-center gap-2"><input type="radio" name="type" value="Top Rated" class="accent-amber-600"> Top Rated</label>
+		<label class="flex items-center gap-2"><input type="radio" name="type" value="Featured" class="accent-amber-600"> Featured</label>
+		</div>
+	</div>
+
+	<!-- AVAILABILITY -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-boxes-stacked text-amber-600 mr-2"></i> Availability</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+		<label class="flex items-center gap-2"><input type="checkbox" name="availability" value="In Stock" class="accent-amber-600"> In Stock</label>
+		<label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Limited Stock" class="accent-amber-600"> Limited Stock</label>
+		<label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Pre Order" class="accent-amber-600"> Pre Order</label>
+		<label class="flex items-center gap-2"><input type="checkbox" name="availability" value="Out of Stock" class="accent-amber-600"> Out of Stock</label>
+		</div>
+	</div>
+
+	<!-- COLOR -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-palette text-amber-600 mr-2"></i> Color</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+		<div class="flex flex-wrap gap-2">
+			{% for rs in color %}
+			<span class="w-6 h-6 rounded-full bg-black border cursor-pointer"></span>
+			{% endfor %}
+		</div>
+		</div>
+	</div>
+
+	<!-- SIZE -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-ruler-combined text-amber-600 mr-2"></i> Size</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 flex flex-wrap gap-2">
+		<label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">XS</label>
+		<label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">S</label>
+		<label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">M</label>
+		<label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">L</label>
+		<label class="px-3 py-1 border rounded cursor-pointer hover:bg-amber-50 text-sm">XL</label>
+		</div>
+	</div>
+
+	<!-- DISCOUNT -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-percent text-amber-600 mr-2"></i> Discount</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+		<label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 10% or more</label>
+		<label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 20% or more</label>
+		<label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 30% or more</label>
+		<label class="flex items-center gap-2"><input type="checkbox" class="accent-amber-600"> 50% or more</label>
+		</div>
+	</div>
+
+	<!-- PRICE RANGE -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-indian-rupee-sign text-amber-600 mr-2"></i> Price Range</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-3">
+		<input id="priceRange" type="range" min="999" max="99999" value="24999" class="w-full accent-amber-600">
+		<div class="text-xs mt-1 text-gray-500">Up to <span id="priceValue" class="font-medium text-gray-800">₹24,999</span></div>
+		</div>
+	</div>
+
+	<!-- RATING -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-star-half-stroke text-amber-600 mr-2"></i> Rating</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-2 text-sm space-y-2">
+		{% for i in "54321" %}
+		<label class="flex items-center gap-1 cursor-pointer">
+			<input type="radio" name="rating" value="{{ i }}" class="accent-amber-600">
+			<span class="text-yellow-500">{% for j in i|make_list %}★{% endfor %}</span>
+			<span class="text-gray-500">& Up</span>
+		</label>
+		{% endfor %}
+		</div>
+	</div>
+
+	<!-- SORT BY -->
+	<div class="accordion border-b pb-3">
+		<button class="w-full flex justify-between items-center font-semibold py-2 hover:text-amber-600 transition">
+		<span><i class="fa-solid fa-arrow-up-wide-short text-amber-600 mr-2"></i> Sort By</span>
+		<i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+		</button>
+		<div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 mt-3">
+		<select class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600">
+			<option>Relevance</option>
+			<option>Price: Low to High</option>
+			<option>Price: High to Low</option>
+			<option>Newest First</option>
+		</select>
+		</div>
+	</div>
+
+	<!-- CLEAR BUTTON -->
+	<button id="clearFilters" class="w-full mt-4 border border-amber-600 rounded-lg py-2 hover:bg-amber-600 hover:text-white font-medium text-amber-700 transition">
+		<i class="fa-solid fa-rotate-right mr-1"></i> Clear All Filters
+	</button>
+
+	</div>
+ </aside>
+
+<!-- ========== Product Grid ========== -->
+<section class="col-span-12 lg:col-span-9">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for rs in products %}
+    <article
+      class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
+
+      <!-- 🔥 Discount Badge -->
+      {% if rs.discount > 0 %}
+      <span class="absolute top-3 left-3 bg-amber-600 text-white text-[11px] font-semibold px-2 py-1 rounded-full shadow">
+        {{ rs.discount }}% OFF
+      </span>
+      {% endif %}
+
+      <!-- 🖼 Image -->
+      <a href="{% url 'product_detail' rs.id rs.slug %}">
+        <div class="relative overflow-hidden">
+          <img src="{{ rs.image.url }}" alt="{{ rs.title }}"
+            class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        </div>
+      </a>
+
+      <!-- 🧾 Content -->
+      <div class="p-4">
+        <a href="{% url 'product_detail' rs.id rs.slug %}">
+          <h3 class="font-semibold text-gray-900 text-lg truncate group-hover:text-amber-600 transition">
+            {{ rs.title }}
+          </h3>
+        </a>
+
+        <!-- ⭐ Rating -->
+        <div class="flex items-center text-yellow-500 text-xs mt-1">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star-half-stroke"></i>
+          <i class="fa-regular fa-star text-gray-300"></i>
+          <span class="ml-2 text-gray-500">(214 Reviews)</span>
+        </div>
+
+        <!-- 💰 Price -->
+        <div class="mt-2 flex items-center gap-2 text-sm">
+          <span class="font-bold text-amber-700 text-lg">₹{{ rs.get_final_price|intcomma }}</span>
+          <span class="line-through text-gray-400 text-sm">₹{{ rs.price|intcomma }}</span>
+          <span class="text-amber-600 text-xs font-semibold">({{ rs.discount }}% off)</span>
+        </div>
+
+        <!-- 🏷 Extra Details -->
+        <div class="mt-3 text-sm text-gray-600 space-y-1">
+          {% if rs.brand %}
+          <p><i class="fa-solid fa-tags text-amber-600 mr-1"></i> <strong>Brand:</strong> {{ rs.brand }}</p>
+          {% endif %}
+
+          {% if rs.category %}
+          <p><i class="fa-solid fa-couch text-amber-600 mr-1"></i> <strong>Category:</strong> {{ rs.category.title }}</p>
+          {% endif %}
+
+          {% if rs.availability %}
+          <p><i class="fa-solid fa-box text-amber-600 mr-1"></i>
+            <strong>Availability:</strong>
+            {% if 'stock' in rs.availability|lower %}
+              <span class="text-green-600">{{ rs.availability }}</span>
+            {% else %}
+              <span class="text-gray-600">{{ rs.availability }}</span>
+            {% endif %}
+          </p>
+          {% endif %}
+        </div>
+
+        <!-- 🛒 Buttons -->
+        <div class="mt-4 flex items-center justify-between">
+          <a href="{% url 'product_detail' rs.id rs.slug %}"
+            class="flex-1 text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition text-sm font-medium">
+            <i class="fa-solid fa-eye mr-1"></i> View Details
+          </a>
+          <button
+            class="ml-3 flex-1 border border-amber-600 text-amber-700 py-2 rounded-lg hover:bg-amber-600 hover:text-white transition text-sm font-medium">
+            <i class="fa-solid fa-cart-shopping mr-1"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="col-span-3 text-center text-gray-500 py-10 text-lg">No products found in this category.</div>
+    {% endfor %}
+  </div>
+</section>
+
+</main>
+
+<!-- 🌀 Pagination -->
+<div class="flex justify-center mt-10 mb-6">
+  <nav class="inline-flex items-center gap-2">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 border rounded-full hover:bg-amber-100">‹</a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+    <span class="px-4 py-2 bg-amber-600 text-white rounded-full">{{ num }}</span>
+    {% else %}
+    <a href="?page={{ num }}" class="px-4 py-2 border rounded-full hover:bg-amber-100">{{ num }}</a>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 border rounded-full hover:bg-amber-100">›</a>
+    {% endif %}
+  </nav>
+</div>
+
+<script>
+  // Filter accordion
+  document.querySelectorAll('.accordion button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const acc = btn.parentElement;
+      acc.classList.toggle('open');
+      const icon = btn.querySelector('i.fa-chevron-down');
+      icon.style.transform = acc.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+      const content = acc.querySelector('.accordion-content');
+      content.style.maxHeight = acc.classList.contains('open') ? content.scrollHeight + 'px' : null;
+    });
+  });
+  // Price slider
+  const priceRange = document.getElementById('priceRange');
+  const priceValue = document.getElementById('priceValue');
+  priceRange.addEventListener('input', () => {
+    priceValue.textContent = `₹${Number(priceRange.value).toLocaleString()}`;
+  });
+</script>
 {% endblock %}
