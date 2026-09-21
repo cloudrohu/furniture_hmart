@@ -2,6 +2,11 @@
 {% load price_tags %}
 {% load humanize %}
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+
 <!-- 🌟 CATEGORY SECTION START -->
 <section class="max-w-7xl mx-auto py-24 px-6 mt-10 bg-white shadow-2xl rounded-3xl mb-10">
   <!-- Heading -->
@@ -465,20 +470,19 @@
     </div>
   </section>
 
-  <!-- ✅ Slider Controls Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.getElementById('bestSellerSlider');
-    const nextBtn = document.getElementById('bestSellerNext');
-    const prevBtn = document.getElementById('bestSellerPrev');
+      const slider = document.getElementById('bestSellerSlider');
+      const nextBtn = document.getElementById('bestSellerNext');
+      const prevBtn = document.getElementById('bestSellerPrev');
 
-    nextBtn.addEventListener('click', () => {
-      slider.scrollBy({ left: slider.clientWidth * 0.9, behavior: 'smooth' });
+      nextBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: slider.clientWidth * 0.9, behavior: 'smooth' });
+      });
+      prevBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: -slider.clientWidth * 0.9, behavior: 'smooth' });
+      });
     });
-    prevBtn.addEventListener('click', () => {
-      slider.scrollBy({ left: -slider.clientWidth * 0.9, behavior: 'smooth' });
-    });
-  });
   </script>
 <!-- BEST SELLER END HERE -->
 
@@ -693,10 +697,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Swiper CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
   <!-- ✅ Swiper Init Script -->
   <script>
