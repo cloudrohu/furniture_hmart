@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [    
-    'jazzmin',
+    'django_daisy',
     'django.contrib.admin',
     'user.apps.UserConfig',
     'order.apps.OrderConfig',
